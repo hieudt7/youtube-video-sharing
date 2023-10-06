@@ -1,0 +1,17 @@
+@tailwind base;
+@import "tailwindcss/components";
+
+@import "tailwindcss/utilities";
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+main{
+    // min-height: calc(100vh - 80px);
+    background-color: #f0f2f5;
+}
+
+iframe{
+    width: 100%;
+}
