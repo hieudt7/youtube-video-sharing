@@ -9,7 +9,7 @@ export default function VideoList(props: VideoListProps) {
     const { data } = props;
     return (
         <>
-            <ul className={'grid grid-cols-4 gap-4'}>
+            <ul className={''}>
                 {data.map((item) => (
                     <li key={item.id}>
                         <VideoItem data={item} />

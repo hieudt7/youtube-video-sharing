@@ -33,7 +33,7 @@ const leftMenu = [
 
 export default function LeftSideBar() {
     return (
-        <div className="w-[300px] h-screen bg-white">
+        <div className="w-[350px] h-screen bg-white">
             <Box role="presentation" sx={{ width: '100%' }}>
                 <List>
                     {leftMenu.map((item) => (

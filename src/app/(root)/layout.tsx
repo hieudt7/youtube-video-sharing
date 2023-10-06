@@ -20,8 +20,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <body className={mulish.className}>
             <ThemeRegistry options={{ key: 'mui' }}>
                     <Header />
-                    <main className="h-screen">
-                        <div className="flex flex-row justify-between">
+                    <main className="min-h-screen px-6">
+                        <div className="flex flex-row justify-between bg-[#f0f2f5]">
                             <LeftSideBar />
                             <div className="max-w-[600px]">{children}</div>
                             <RightSideBar />

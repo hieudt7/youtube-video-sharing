@@ -5,6 +5,7 @@ export interface AuthorInfo {
 }
 export interface VideoInfo {
     id: string;
+    createTime:string;
     title: string;
     cover: string;
     view: number;
