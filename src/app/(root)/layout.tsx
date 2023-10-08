@@ -14,7 +14,9 @@ export const metadata: Metadata = {
     description: 'Welcome to Youtube video sharing Website',
 };
 
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+    console.log('run layout')
     return (
         <html lang="en">
             <body className={mulish.className}>
