@@ -2,7 +2,7 @@
 import React from 'react';
 import Image from 'next/image';
 
-import { videoAction, type VideoInfo, videoActionEnum, videoActionInfo } from '@/services/video';
+import { videoAction,removeVideoAction, type VideoInfo, videoActionEnum, videoActionInfo } from '@/services/video';
 import { DISPLAY_DATE_FORMAT } from '@/constants/time';
 
 import Box from '@mui/material/Box';
@@ -12,14 +12,16 @@ import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 
+import { useCommonDataContext } from '@/contexts';
+
+
 import dayjs from 'dayjs';
 
 type Props = {
     data: VideoInfo;
-    videoActionList: videoActionInfo[];
 };
-export default function VideoItem({ data, videoActionList }: Props) {
-    console.log(videoActionList);
+export default function VideoItem({ data }: Props) {
+    const { videoActionList,setVideoActionList } = useCommonDataContext();
     const handleVideoAction = async (id: string, action: videoActionEnum) => {
         const videoInfoResponse = await videoAction({
             payload: {
@@ -27,11 +29,23 @@ export default function VideoItem({ data, videoActionList }: Props) {
                 action: action,
             },
         });
+        console.log(videoInfoResponse)
+        if(videoInfoResponse){
+            setVideoActionList(videoInfoResponse)
+        }
         //TODO pass userId
-        console.log(videoInfoResponse);
     };
     const handleRemoveVideoACtion = async (id: string, action: videoActionEnum) => {
-        alert('remove Like');
+        const videoInfoResponse = await removeVideoAction({
+            payload: {
+                id: id,
+                action: action,
+            },
+        });
+        if(videoInfoResponse){
+            setVideoActionList(videoInfoResponse)
+        }
+        console.log(videoInfoResponse)
     };
     return (
         <Box
@@ -69,7 +83,7 @@ export default function VideoItem({ data, videoActionList }: Props) {
                                 {data?.likes}
                             </Button>
                         ) : (
-                            <Button sx={{ color: '#333' }}  onClick={() => handleVideoAction(data.id, 'LIKE')}>
+                            <Button sx={{ color: '#5e6771' }}  onClick={() => handleVideoAction(data.id, 'LIKE')}>
                                 <ThumbUpAltIcon/>
                                 {data?.likes}
                             </Button>
@@ -80,7 +94,7 @@ export default function VideoItem({ data, videoActionList }: Props) {
                                 {data?.likes}
                             </Button>
                         ) : (
-                            <Button sx={{ color: '#333' }} onClick={() => handleVideoAction(data.id, 'DISLIKE')}>
+                            <Button sx={{ color: '#5e6771' }} onClick={() => handleVideoAction(data.id, 'DISLIKE')}>
                                 <ThumbDownAltIcon />
                                 {data?.likes}
                             </Button>

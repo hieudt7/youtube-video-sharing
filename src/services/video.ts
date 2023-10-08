@@ -54,15 +54,31 @@ export function videoAction(params: SearchEmailTemplatesParams) {
       },
     } = params;
   
-    return new Promise<videoActionInfo>((resolve, reject) => {
+    return new Promise<videoActionInfo[]>((resolve, reject) => {
       client
         .post(`/api/video-action`, payload)
         .then(handleAxiosResponse(resolve))
         .catch(handleAxiosError(reject));
     });
-  }
+}
 
-  export function getVideoAction() {
+export function removeVideoAction(params: SearchEmailTemplatesParams) {
+    const {
+      payload = {
+        id: '',
+        action: '',
+      },
+    } = params;
+  
+    return new Promise<videoActionInfo[]>((resolve, reject) => {
+      client
+        .post(`/api/video-action-remove`, payload)
+        .then(handleAxiosResponse(resolve))
+        .catch(handleAxiosError(reject));
+    });
+}
+
+export function getVideoAction() {
     return new Promise<videoActionInfo[]>((resolve, reject) => {
         client
         .get<ApiResponse<videoActionInfo[]>>(

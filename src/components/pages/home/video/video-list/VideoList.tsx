@@ -44,8 +44,7 @@ export default function VideoList() {
             <ul className={''}>
                 {videoList?.map((item) => (
                     <li key={item.id}>
-                        <VideoItem data={item} videoActionList={videoActionList}/> 
-                        {/* TODO set context for video action list */}
+                        <VideoItem data={item} /> 
                     </li>
                 ))}
             </ul>
