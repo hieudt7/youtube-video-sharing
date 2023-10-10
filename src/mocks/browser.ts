@@ -1,6 +1,7 @@
 import { setupWorker, rest } from 'msw';
-import { VideoListData } from './data';
+import { VideoListData, userListData } from './data';
 import { type videoActionInfo } from '@/services/video';
+import { type UserInfo } from '@/services/authentication';
 export const worker = setupWorker(
     //mock api get all video
     rest.get('/api/get-all-video', (req, res, ctx) => {
@@ -34,7 +35,7 @@ export const worker = setupWorker(
     }),
     //mock api undo like/dislike video
     rest.post<videoActionInfo>('/api/video-action-remove', (req, res, ctx) => {
-         //handle store data in local storage
+        //handle store data in local storage
         let storedVideoAction = JSON.parse(localStorage.getItem('videoAction')!);
         const { id } = req.body;
         if (storedVideoAction) {
@@ -55,6 +56,26 @@ export const worker = setupWorker(
                 data: storedVideoAction,
             })
         );
+    }),
+    //mock api login
+    rest.post<UserInfo>('/api/login', (req, res, ctx) => {
+        const storedUserList = JSON.parse(localStorage.getItem('userList')!);
+        if (!storedUserList) {
+            //init user list data into local storage
+            localStorage.setItem('userList', JSON.stringify(userListData));
+        }
+        const { email, password } = req.body;
+        const userLogged = JSON.parse(localStorage.getItem('userList')!).find((item: any) => item.email === email);
+        if (userLogged && password === userLogged.password) {
+            localStorage.setItem('userLogged', JSON.stringify(userLogged));
+            return res(
+                ctx.json({
+                    data: userLogged,
+                })
+            );
+        } else {
+            return res(ctx.status(401), ctx.json({ success: false, message: 'Login failed' }));
+        }
     })
 );
 

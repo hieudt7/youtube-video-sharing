@@ -3,14 +3,17 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 
 import VideoItem from '../video-list-item';
-import { getAllVideo,getVideoAction, type VideoInfo,videoActionInfo } from '@/services/video';
+import { getAllVideo,getVideoAction, type VideoInfo } from '@/services/video';
+
+import { useCommonDataContext } from '@/contexts';
+
 if (process.env.NEXT_PUBLIC_IS_MOCK_API) {
     const { worker } = require('@/mocks/browser');
     worker.start();
 }
 export default function VideoList() {
     const [videoList, setVideoList] = useState<VideoInfo[]>([]);
-    const [videoActionList, setVideoActionList] = useState<videoActionInfo[]>([]);
+    const { setVideoActionList } = useCommonDataContext();
     useEffect(() => {
         initGetAllVideo();
         initGetVideoAction();

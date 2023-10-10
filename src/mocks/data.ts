@@ -32,3 +32,19 @@ export const VideoListData = [
         isTrending: false,
     },
 ];
+export const userListData = [
+    {
+        id: '1',
+        avatar: '',
+        nickname: 'hieudt',
+        email:'hieudt@gmail.com',
+        password:'123456',
+    },
+    {
+        id: '2',
+        avatar: '',
+        nickname: 'admin',
+        email:'admin@gmail.com',
+        password:'123456',
+    }
+]

@@ -10,10 +10,11 @@ type Props = {
 
 interface CommonDataContextType {
     isLoading: boolean;
-    setIsLoading: (isLoading: boolean) => void;
+    setIsLoading: Dispatch<SetStateAction<boolean>>;
 
     videoActionList: videoActionInfo[];
     setVideoActionList: Dispatch<SetStateAction<videoActionInfo[]>>;
+
 }
 
 const CommonDataContext = createContext<CommonDataContextType>({

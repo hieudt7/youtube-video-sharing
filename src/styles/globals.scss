@@ -15,3 +15,8 @@ main{
 iframe{
     width: 100%;
 }
+.MuiTypography-root{
+    &.MuiTypography-h6.MuiDialogTitle-root{
+        @apply bg-purple-primary text-white;
+    }
+}

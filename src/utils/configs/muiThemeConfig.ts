@@ -13,7 +13,7 @@ const muiThemeConfig: any = {
   components: {
     MuiCssBaseline: {
       styleOverrides: {
-        '.MuiOutlinedInput-root': {
+        '.MuiOutlinedInput-root.white-input': {
           '.MuiOutlinedInput-notchedOutline': {
             borderColor: '#fff',
           },
@@ -30,7 +30,6 @@ const muiThemeConfig: any = {
           },
         },
         '.MuiFormLabel-root': {
-          color:'red',
           '&.white-label':{
             color:'#fff',
             '&.Mui-focused':{
