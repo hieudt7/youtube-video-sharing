@@ -59,12 +59,12 @@ export default function VideoItem({ data }: Props) {
         >
             <div className="flex flex-row p-4">
                 <div className="avatar">
-                    <Avatar alt={data?.author.nickname} src={data?.author.avatar} />
+                    <Avatar alt={data?.author.username} src={data?.author.avatar} />
                 </div>
                 <div>
                     <div className="title">{data?.title}</div>
                     <div className="title">
-                        <span>{data?.author.nickname}</span>
+                        <span>{data?.author.username}</span>
                         {' - '}
                         <span>{dayjs(data?.createTime).format(DISPLAY_DATE_FORMAT)}</span>
                     </div>

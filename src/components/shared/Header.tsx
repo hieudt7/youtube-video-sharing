@@ -103,7 +103,7 @@ export default function Header() {
                                     onClose={handleCloseUserMenu}
                                 >
                                     <MenuItem>
-                                        <Typography textAlign="center">Hi, {user?.nickname}</Typography>
+                                        <Typography textAlign="center">Hi, {user?.username}</Typography>
                                     </MenuItem>
                                     <MenuItem onClick={handleCloseUserMenu}>
                                         <Typography textAlign="center">Profile</Typography>

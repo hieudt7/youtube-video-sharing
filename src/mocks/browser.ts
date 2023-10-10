@@ -33,7 +33,7 @@ export const worker = setupWorker(
             })
         );
     }),
-    //mock api undo like/dislike video
+    //mock api undo action like/dislike video
     rest.post<videoActionInfo>('/api/video-action-remove', (req, res, ctx) => {
         //handle store data in local storage
         let storedVideoAction = JSON.parse(localStorage.getItem('videoAction')!);
@@ -75,6 +75,32 @@ export const worker = setupWorker(
             );
         } else {
             return res(ctx.status(401), ctx.json({ success: false, message: 'Login failed' }));
+        }
+    }),
+    //mock api register
+    rest.post<UserInfo>('/api/register', (req, res, ctx) => {
+        const storedUserList = JSON.parse(localStorage.getItem('userList')!);
+        const { email, username, password } = req.body;
+        const existingUser = JSON.parse(localStorage.getItem('userList')!).find((item: any) => item.email === email);
+        if (existingUser) {
+            return res(ctx.status(401), ctx.json({ success: false, message: 'User already exists.' }));
+        } else {
+            //mock user register
+            const newUser = {
+                id: storedUserList.length + 1,
+                avatar: '',
+                username: username,
+                email: email,
+                password: password
+            };
+            storedUserList.push(newUser)
+            localStorage.setItem('userList', JSON.stringify(storedUserList));
+            localStorage.setItem('userLogged', JSON.stringify(newUser));
+            return res(
+                ctx.json({
+                    data: newUser,
+                })
+            );
         }
     })
 );

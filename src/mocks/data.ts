@@ -11,7 +11,7 @@ export const VideoListData = [
         author: {
             id: '1397653875',
             avatar: 'https://yt3.ggpht.com/7nNBZTf4pTbi2K2bySkVovGOwTD9WFFX2MKwA0xPteWTMt-AL8akzHVy3mntRk0EiA_hfI895og=s88-c-k-c0x00ffffff-no-nd-rj',
-            nickname: 'Mon Wibu ヅ',
+            username: 'Mon Wibu ヅ',
         },
         isTrending: false,
     },
@@ -27,7 +27,7 @@ export const VideoListData = [
         author: {
             id: '1397653875',
             avatar: 'https://yt3.ggpht.com/DGr01GnA3cPYEdbECByx1Ln6NGgOhEiyNA_WyVvBGCdkV3f8oWXVr6uPBAcQ4ztd5BOD1Mtht0w=s88-c-k-c0x00ffffff-no-rj',
-            nickname: 'Test name 2',
+            username: 'Test name 2',
         },
         isTrending: false,
     },
@@ -36,14 +36,14 @@ export const userListData = [
     {
         id: '1',
         avatar: '',
-        nickname: 'hieudt',
+        username: 'hieudt',
         email:'hieudt@gmail.com',
         password:'123456',
     },
     {
         id: '2',
         avatar: '',
-        nickname: 'admin',
+        username: 'admin',
         email:'admin@gmail.com',
         password:'123456',
     }

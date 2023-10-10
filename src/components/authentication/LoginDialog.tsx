@@ -18,6 +18,9 @@ import { useForm, Controller } from 'react-hook-form';
 
 import { useAuthContext } from '@/contexts';
 
+import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
         children: React.ReactElement<any, any>;
@@ -30,11 +33,20 @@ const Transition = React.forwardRef(function Transition(
 export default function LoginDialog() {
     const { signIn } = useAuthContext();
 
+    const formSchema = Yup.object().shape({
+        email: Yup.string().required('Email is required').email('Please input valid email address'),
+        password: Yup.string()
+            .required('Password is required')
+            .min(6, 'Password length should be at least 6 characters')
+            .max(12, 'Password cannot exceed more than 12 characters'),
+    });
     const {
         control,
         handleSubmit,
         formState: { errors },
     } = useForm({
+        mode: 'all',
+        resolver: yupResolver(formSchema),
         defaultValues: {
             email: '',
             password: '',
@@ -88,13 +100,6 @@ export default function LoginDialog() {
                         )}
                         name="email"
                         control={control}
-                        rules={{
-                            required: 'Please input email address',
-                            pattern: {
-                                value: Validation.email,
-                                message: 'Please input valid email address',
-                            },
-                        }}
                     />
                     <Controller
                         render={({ field }) => (
@@ -102,7 +107,7 @@ export default function LoginDialog() {
                                 <TextField
                                     size="small"
                                     id="outlined-error"
-                                    label="Password*"
+                                    label="Confirm password*"
                                     error={!!errors.password}
                                     type={'password'}
                                     onChange={field.onChange}
@@ -114,9 +119,6 @@ export default function LoginDialog() {
                         )}
                         name="password"
                         control={control}
-                        rules={{
-                            required: 'Please input password.',
-                        }}
                     />
                 </DialogContent>
                 <DialogActions>

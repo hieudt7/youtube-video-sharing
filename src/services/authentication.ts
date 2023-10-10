@@ -4,13 +4,17 @@ import { handleAxiosResponse, handleAxiosError } from './common';
 export interface UserInfo {
     id: string;
     avatar: string;
-    nickname: string;
+    username: string;
     email: string;
     password: string;
 }
 export interface UserLoginParams {
     payload: { email: string; password: string };
 }
+export interface UserRegisterParams {
+    payload: { email: string; password: string; username: string };
+}
+
 export type videoActionInfo = {
     id?: string;
     action?: videoActionEnum;
@@ -29,11 +33,12 @@ export function login(params: UserLoginParams) {
         client.post(`/api/login`, payload).then(handleAxiosResponse(resolve)).catch(handleAxiosError(reject));
     });
 }
-export function register(params: UserLoginParams) {
+export function register(params: UserRegisterParams) {
     const {
         payload = {
             email: '',
             password: '',
+            username: '',
         },
     } = params;
 
