@@ -33,11 +33,9 @@ export default function VideoItem({ data }: Props) {
                 action: action,
             },
         });
-        console.log(videoInfoResponse);
         if (videoInfoResponse) {
             setVideoActionList(videoInfoResponse);
         }
-        //TODO pass userId
     };
 
     const handleRemoveVideoACtion = async (id: string, action: videoActionEnum) => {
