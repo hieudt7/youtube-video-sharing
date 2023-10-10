@@ -41,7 +41,7 @@ export default function VideoList() {
     return (
         <>
             <ul className={''}>
-                {videoList?.map((item) => (
+                {videoList?.map((item:VideoInfo) => (
                     <li key={item.id}>
                         <VideoItem data={item} /> 
                     </li>
