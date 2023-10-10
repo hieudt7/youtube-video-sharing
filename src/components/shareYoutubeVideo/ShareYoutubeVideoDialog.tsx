@@ -7,17 +7,20 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Zoom from '@mui/material/Zoom';
 import { TransitionProps } from '@mui/material/transitions';
-import MenuItem from '@mui/material/MenuItem';
-import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import VideoCameraFrontOutlinedIcon from '@mui/icons-material/VideoCameraFrontOutlined';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
 
 import { useForm, Controller } from 'react-hook-form';
 
-import { useAuthContext } from '@/contexts';
-
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { toast } from 'react-toastify';
+
+import { useCommonDataContext } from '@/contexts';
+import { Validation } from '@/constants/regex';
+import { shareYoutubeVideo } from '@/services/video';
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -28,23 +31,16 @@ const Transition = React.forwardRef(function Transition(
     return <Zoom style={{ transitionDelay: '100ms' }} ref={ref} {...props} />;
 });
 
-export default function RegisterDialog() {
-    const { signUp } = useAuthContext();
+export default function ShareYoutubeVideoDialog() {
+    const { setIsReloadVideoList } = useCommonDataContext();
 
     const formSchema = Yup.object().shape({
-        email: Yup.string().required('Email is required').email('Please input valid email address'),
-        username: Yup.string().required('username is required'),
-        password: Yup.string()
-            .required('Password is required')
-            .min(6, 'Password length should be at least 6 characters')
-            .max(12, 'Password cannot exceed more than 12 characters'),
-        cpassword: Yup.string()
-            .required('Confirm Password is required')
-            .min(6, 'Password length should be at least 6 characters')
-            .max(12, 'Password cannot exceed more than 12 characters')
-            .oneOf([Yup.ref('password')], 'Passwords do not match'),
+        url: Yup.string()
+            .required('Youtube Url is required')
+            .matches(Validation.youtubeUrl, 'Please input valid youtube link'),
+        thumbnail: Yup.string(),
+        title: Yup.string(),
     });
-
     const {
         control,
         handleSubmit,
@@ -53,9 +49,9 @@ export default function RegisterDialog() {
         mode: 'all',
         resolver: yupResolver(formSchema),
         defaultValues: {
-            email: '',
-            password: '',
-            cpassword: '',
+            url: '',
+            thumbnail: '',
+            title: '',
         },
     });
     const [open, setOpen] = React.useState(false);
@@ -68,17 +64,38 @@ export default function RegisterDialog() {
         setOpen(false);
     };
 
-    const handleSaveForm = async () => {
-        handleSubmit((formValue) => {
-            signUp(formValue.email, formValue.password,formValue.username);
+    const handleSaveForm = () => {
+        handleSubmit(async (formValue) => {
+            // signIn(formValue.url);
+            console.log('click 1')
+            var match = formValue.url.match(Validation.youtubeUrl) ?? '';
+            if (match && match[7]?.length !== 11) {
+                toast.error('Youtube ID is not correct! Please check again.');
+                return;
+            }
+            console.log('click 2')
+            //share video api
+            let shareResponse = await shareYoutubeVideo({
+                payload: {
+                    title: formValue.title,
+                    url: match[7] ?? '',
+                    cover: formValue.thumbnail,
+                },
+            });
+            if(shareResponse){
+                toast.success('Share video successful.');
+                handleClose();
+                setIsReloadVideoList(true); //trigger to reload video list
+                //TODO post data into websocket
+            }
         })();
     };
 
     return (
         <>
-            <MenuItem onClick={handleClickOpen}>
-                <Typography textAlign="center">Register</Typography>
-            </MenuItem>
+            <IconButton aria-label="toggle password visibility" edge="end" onClick={handleClickOpen}>
+                <VideoCameraFrontOutlinedIcon sx={{ color: '#fff' }} />
+            </IconButton>
             <Dialog
                 open={open}
                 TransitionComponent={Transition}
@@ -86,23 +103,24 @@ export default function RegisterDialog() {
                 onClose={handleClose}
                 aria-describedby="alert-dialog-slide-description"
             >
-                <DialogTitle>{'User Register form'}</DialogTitle>
+                <DialogTitle>{'Share a youtube movie'}</DialogTitle>
                 <DialogContent>
                     <Controller
                         render={({ field }) => (
                             <FormControl fullWidth size="small" variant="outlined" sx={{ padding: '15px 0' }}>
                                 <TextField
                                     size="small"
-                                    label="Email*"
-                                    error={!!errors.email}
+                                    label="Youtube URL*"
+                                    error={!!errors.url}
+                                    type={'text'}
                                     onChange={field.onChange}
                                     name={field.name}
                                     value={field.value}
-                                    helperText={errors.email?.message}
+                                    helperText={errors.url?.message}
                                 />
                             </FormControl>
                         )}
-                        name="email"
+                        name="url"
                         control={control}
                     />
                     <Controller
@@ -110,16 +128,16 @@ export default function RegisterDialog() {
                             <FormControl fullWidth size="small" variant="outlined" sx={{ padding: '15px 0' }}>
                                 <TextField
                                     size="small"
-                                    label="username*"
-                                    error={!!errors.username}
+                                    label="Title"
+                                    type={'text'}
                                     onChange={field.onChange}
                                     name={field.name}
                                     value={field.value}
-                                    helperText={errors.username?.message}
+                                    helperText={errors.url?.message}
                                 />
                             </FormControl>
                         )}
-                        name="username"
+                        name="title"
                         control={control}
                     />
                     <Controller
@@ -127,35 +145,16 @@ export default function RegisterDialog() {
                             <FormControl fullWidth size="small" variant="outlined" sx={{ padding: '15px 0' }}>
                                 <TextField
                                     size="small"
-                                    label="Password*"
-                                    error={!!errors.password}
-                                    type={'password'}
+                                    label="Youtube thumbnail"
+                                    type={'text'}
                                     onChange={field.onChange}
                                     name={field.name}
                                     value={field.value}
-                                    helperText={errors.password?.message}
+                                    helperText={errors.url?.message}
                                 />
                             </FormControl>
                         )}
-                        name="password"
-                        control={control}
-                    />
-                    <Controller
-                        render={({ field }) => (
-                            <FormControl fullWidth size="small" variant="outlined" sx={{ padding: '15px 0' }}>
-                                <TextField
-                                    size="small"
-                                    label="Password*"
-                                    error={!!errors.cpassword}
-                                    type={'password'}
-                                    onChange={field.onChange}
-                                    name={field.name}
-                                    value={field.value}
-                                    helperText={errors.cpassword?.message}
-                                />
-                            </FormControl>
-                        )}
-                        name="cpassword"
+                        name="thumbnail"
                         control={control}
                     />
                 </DialogContent>
@@ -163,7 +162,7 @@ export default function RegisterDialog() {
                     <Button onClick={handleClose} type="button">
                         Cancel
                     </Button>
-                    <Button onClick={handleSaveForm}>Register</Button>
+                    <Button onClick={handleSaveForm}>Share</Button>
                 </DialogActions>
             </Dialog>
         </>

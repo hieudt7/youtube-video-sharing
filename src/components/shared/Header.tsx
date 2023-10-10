@@ -11,7 +11,6 @@ import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import FormControl from '@mui/material/FormControl';
 import SearchIcon from '@mui/icons-material/Search';
-import VideoCameraFrontOutlinedIcon from '@mui/icons-material/VideoCameraFrontOutlined';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
@@ -21,6 +20,7 @@ import Avatar from '@mui/material/Avatar';
 
 import LoginDialog from '@/components/authentication/LoginDialog';
 import RegisterDialog from '@/components/authentication/RegisterDialog';
+import ShareYoutubeVideoDialog from '@/components/shareYoutubeVideo/ShareYoutubeVideoDialog';
 
 import { useAuthContext } from '@/contexts';
 
@@ -72,9 +72,7 @@ export default function Header() {
                 </div>
                 <div>
                     <Stack spacing={2} direction="row">
-                        <IconButton aria-label="toggle password visibility" edge="end">
-                            <VideoCameraFrontOutlinedIcon sx={{ color: '#fff' }} />
-                        </IconButton>
+                        <ShareYoutubeVideoDialog />
                         {isAuthenticated ? (
                             <>
                                 <Tooltip title="Account info">

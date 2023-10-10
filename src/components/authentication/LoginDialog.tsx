@@ -12,7 +12,7 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
 
-import { Validation } from '@/constants/regex';
+
 
 import { useForm, Controller } from 'react-hook-form';
 
@@ -69,7 +69,7 @@ export default function LoginDialog() {
     };
 
     return (
-        <div>
+        <>
             <MenuItem onClick={handleClickOpen}>
                 <Typography textAlign="center">Login</Typography>
             </MenuItem>
@@ -87,7 +87,6 @@ export default function LoginDialog() {
                             <FormControl fullWidth size="small" variant="outlined" sx={{ padding: '15px 0' }}>
                                 <TextField
                                     size="small"
-                                    id="outlined-error"
                                     label="Email*"
                                     error={!!errors.email}
                                     type={'text'}
@@ -106,7 +105,6 @@ export default function LoginDialog() {
                             <FormControl fullWidth size="small" variant="outlined" sx={{ padding: '15px 0' }}>
                                 <TextField
                                     size="small"
-                                    id="outlined-error"
                                     label="Confirm password*"
                                     error={!!errors.password}
                                     type={'password'}
@@ -128,6 +126,6 @@ export default function LoginDialog() {
                     <Button onClick={handleSaveForm}>Login</Button>
                 </DialogActions>
             </Dialog>
-        </div>
+        </>
     );
 }

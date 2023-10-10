@@ -10,10 +10,14 @@ type Props = {
 
 interface CommonDataContextType {
     isLoading: boolean;
-    setIsLoading: Dispatch<SetStateAction<boolean>>;
+    setIsLoading:(isLoading: boolean) => void;
 
     videoActionList: videoActionInfo[];
     setVideoActionList: Dispatch<SetStateAction<videoActionInfo[]>>;
+    
+
+    isReloadVideoList: boolean | null;
+    setIsReloadVideoList: (isReload: boolean) => void;
 
 }
 
@@ -22,10 +26,13 @@ const CommonDataContext = createContext<CommonDataContextType>({
     setIsLoading: () => {},
     videoActionList: [],
     setVideoActionList: () => {},
+    isReloadVideoList: null,
+    setIsReloadVideoList: () => {},
 });
 
 export function CommonDataContextProvider({ children }: Props) {
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isReloadVideoList, setIsReloadVideoList] = useState<boolean | null>(null);
     const [videoActionList, setVideoActionList] = useState<videoActionInfo[]>([]);
 
     const providerValue = useMemo(
@@ -34,8 +41,10 @@ export function CommonDataContextProvider({ children }: Props) {
             setIsLoading,
             videoActionList,
             setVideoActionList,
+            isReloadVideoList,
+            setIsReloadVideoList
         }),
-        [isLoading, videoActionList]
+        [isLoading, videoActionList,isReloadVideoList]
     );
     return <CommonDataContext.Provider value={providerValue}>{children}</CommonDataContext.Provider>;
 }

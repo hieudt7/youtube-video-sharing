@@ -1,6 +1,6 @@
 import { setupWorker, rest } from 'msw';
 import { VideoListData, userListData } from './data';
-import { type videoActionInfo } from '@/services/video';
+import { type videoActionInfo,VideoInfo } from '@/services/video';
 import { type UserInfo } from '@/services/authentication';
 export const worker = setupWorker(
     //mock api get all video
@@ -8,7 +8,9 @@ export const worker = setupWorker(
         //init mock data or get data from local storage
         const storedVideoList = localStorage.getItem('videoList');
         const videoListResponse = storedVideoList ? JSON.parse(storedVideoList) : VideoListData;
-        localStorage.setItem('videoList', JSON.stringify(VideoListData));
+        if(!storedVideoList){
+            localStorage.setItem('videoList', JSON.stringify(VideoListData));
+        }
         return res(
             ctx.json({
                 data: videoListResponse,
@@ -91,9 +93,9 @@ export const worker = setupWorker(
                 avatar: '',
                 username: username,
                 email: email,
-                password: password
+                password: password,
             };
-            storedUserList.push(newUser)
+            storedUserList.push(newUser);
             localStorage.setItem('userList', JSON.stringify(storedUserList));
             localStorage.setItem('userLogged', JSON.stringify(newUser));
             return res(
@@ -102,7 +104,32 @@ export const worker = setupWorker(
                 })
             );
         }
+    }),
+    //mock api share video
+    rest.post<VideoInfo>('/api/share-youtube-video', (req, res, ctx) => {
+        const { title, url, cover } = req.body;
+        const storedVideoList = JSON.parse(localStorage.getItem('videoList')!);
+        const defaultThumb = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEJNhL2iJjNAlS7mbgcQDddFu8VKaFIm-D8A&usqp=CAU'
+        const videoResponse = {
+            id: storedVideoList?.length + 1,
+            createTime: new Date(),
+            title: title,
+            cover: cover || defaultThumb,
+            url:url,
+            view: Math.floor(Math.random() * 500) + 100,
+            duration: '0:42',
+            likes: Math.floor(Math.random() * 500) + 100,
+            dislikes: Math.floor(Math.random() * 500) + 100,
+            author: JSON.parse(localStorage.getItem('userLogged')!),
+            isTrending: false,
+        }
+        storedVideoList.push(videoResponse);
+        localStorage.setItem('videoList', JSON.stringify(storedVideoList));
+        return res(
+            ctx.json({
+                data: videoResponse,
+            })
+        );
     })
 );
 
-// worker.start()

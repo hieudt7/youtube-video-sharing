@@ -7,17 +7,13 @@ import { getAllVideo,getVideoAction, type VideoInfo } from '@/services/video';
 
 import { useCommonDataContext } from '@/contexts';
 
-if (process.env.NEXT_PUBLIC_IS_MOCK_API) {
-    const { worker } = require('@/mocks/browser');
-    worker.start();
-}
 export default function VideoList() {
     const [videoList, setVideoList] = useState<VideoInfo[]>([]);
-    const { setVideoActionList } = useCommonDataContext();
+    const { setVideoActionList,isReloadVideoList } = useCommonDataContext();
     useEffect(() => {
         initGetAllVideo();
         initGetVideoAction();
-    }, []);
+    }, [isReloadVideoList]);
 
     const initGetAllVideo = async () =>{
         try {
