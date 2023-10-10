@@ -19,7 +19,6 @@ import Menu from '@mui/material/Menu';
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 
-
 import LoginDialog from '@/components/authentication/LoginDialog';
 import RegisterDialog from '@/components/authentication/RegisterDialog';
 
@@ -27,7 +26,7 @@ import { useAuthContext } from '@/contexts';
 
 export default function Header() {
     const { headerWrapper, searchWrapper } = headerStyles();
-    const { isAuthenticated,user } = useAuthContext();
+    const { isAuthenticated, user, signOut } = useAuthContext();
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -49,7 +48,7 @@ export default function Header() {
                         size="small"
                         variant="outlined"
                         className="group-search"
-                        sx={{ borderRadius: '30px', color: '#fff'}}
+                        sx={{ borderRadius: '30px', color: '#fff' }}
                     >
                         <InputLabel htmlFor="outlined-adornment-password" className="white-label">
                             Search
@@ -58,7 +57,7 @@ export default function Header() {
                             size="small"
                             id="outlined-adornment-password"
                             type={'text'}
-                            className='white-input'
+                            className="white-input"
                             endAdornment={
                                 <InputAdornment position="end">
                                     <IconButton aria-label="toggle password visibility" edge="end">
@@ -109,7 +108,7 @@ export default function Header() {
                                     <MenuItem onClick={handleCloseUserMenu}>
                                         <Typography textAlign="center">Profile</Typography>
                                     </MenuItem>
-                                    <MenuItem onClick={handleCloseUserMenu}>
+                                    <MenuItem onClick={signOut}>
                                         <Typography textAlign="center">Logut</Typography>
                                     </MenuItem>
                                 </Menu>

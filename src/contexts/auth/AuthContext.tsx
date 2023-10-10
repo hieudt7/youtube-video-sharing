@@ -25,9 +25,9 @@ const AuthContext = createContext<AuthContextShape>({
 
 export const AuthContextProvider = ({ children }: AuthProviderProps) => {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(
-        JSON.parse(localStorage.getItem('userLogged')!) ? true : false
+        JSON.parse(localStorage.getItem('userLogged')!) ? true : false //TODO: check isauthenticated if get user have data
     );
-    const [user, setUser] = useState<UserInfo | null>(JSON.parse(localStorage.getItem('userLogged')!)); //mock user from localstorage instead of token
+    const [user, setUser] = useState<UserInfo | null>(JSON.parse(localStorage.getItem('userLogged')!)); //TODO: set token from BE
 
     const handleSignedIn = (data: UserInfo) => {
         setUser(data);
@@ -36,6 +36,8 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
     const signOut = () => {
         setUser(null);
         setIsAuthenticated(false);
+        //TODO: handle refresh token from BE
+        localStorage.removeItem('userLogged'); 
     };
     const signIn = useCallback(
         async (email: string, password: string) => {
