@@ -3,8 +3,7 @@
 import React from 'react';
 import Stack from '@mui/material/Stack';
 import Image from 'next/image';
-import logo from '@/public/images/logo-white.png';
-import { headerStyles } from './variants';
+import { toast } from 'react-toastify';
 
 import IconButton from '@mui/material/IconButton';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -23,6 +22,8 @@ import LoginDialog from '@/components/authentication/LoginDialog';
 import RegisterDialog from '@/components/authentication/RegisterDialog';
 import ShareYoutubeVideoDialog from '@/components/shareYoutubeVideo/ShareYoutubeVideoDialog';
 import Notification from '@/components/notification/Notification';
+import logo from '@/public/images/logo-white.png';
+import { headerStyles } from './variants';
 
 import { useAuthContext } from '@/contexts';
 
@@ -62,7 +63,11 @@ export default function Header() {
                             className="white-input"
                             endAdornment={
                                 <InputAdornment position="end">
-                                    <IconButton aria-label="toggle password visibility" edge="end">
+                                    <IconButton
+                                        onClick={() => {
+                                            toast.info('Feature is coming soon');
+                                        }}
+                                    >
                                         <SearchIcon sx={{ color: '#fff' }} />
                                     </IconButton>
                                 </InputAdornment>
@@ -148,8 +153,8 @@ export default function Header() {
                                     open={Boolean(anchorElUser)}
                                     onClose={handleCloseUserMenu}
                                 >
-                                    <LoginDialog closeMenuItem={handleCloseUserMenu}/>
-                                    <RegisterDialog closeMenuItem={handleCloseUserMenu}/>
+                                    <LoginDialog closeMenuItem={handleCloseUserMenu} />
+                                    <RegisterDialog closeMenuItem={handleCloseUserMenu} />
                                 </Menu>
                             </>
                         )}

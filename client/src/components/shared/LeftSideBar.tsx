@@ -12,6 +12,8 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 
+import { toast } from 'react-toastify';
+
 const leftMenu = [
     {
         label: 'Home',
@@ -38,7 +40,11 @@ export default function LeftSideBar() {
                 <List>
                     {leftMenu.map((item) => (
                         <ListItem key={item.label} disablePadding>
-                            <ListItemButton>
+                            <ListItemButton
+                                onClick={() => {
+                                    toast.info('Feature is coming soon');
+                                }}
+                            >
                                 <ListItemIcon>{item.icon}</ListItemIcon>
                                 <ListItemText primary={item.label} />
                             </ListItemButton>
