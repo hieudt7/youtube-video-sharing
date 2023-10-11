@@ -1,6 +1,7 @@
 import { setupWorker, rest } from 'msw';
+import { remove } from 'lodash';
 import { VideoListData, userListData } from './data';
-import { type videoActionInfo,VideoInfo } from '@/services/video';
+import { type videoActionInfo, VideoInfo } from '@/services/video';
 import { type UserInfo } from '@/services/authentication';
 export const worker = setupWorker(
     //mock api get all video
@@ -8,7 +9,7 @@ export const worker = setupWorker(
         //init mock data or get data from local storage
         const storedVideoList = localStorage.getItem('videoList');
         const videoListResponse = storedVideoList ? JSON.parse(storedVideoList) : VideoListData;
-        if(!storedVideoList){
+        if (!storedVideoList) {
             localStorage.setItem('videoList', JSON.stringify(VideoListData));
         }
         return res(
@@ -22,16 +23,26 @@ export const worker = setupWorker(
         //handle store data in local storage
         let storedVideoAction = JSON.parse(localStorage.getItem('videoAction')!);
         const { id } = req.body;
-        if (storedVideoAction) {
-            storedVideoAction = storedVideoAction.filter((item: any) => item.id !== id);
-            storedVideoAction = [...storedVideoAction, req.body];
+        const user = JSON.parse(localStorage.getItem('userLogged')!);
+        const data = {
+            ...req.body,
+            author: user.id,
+        };
+        let response: any;
+        if (storedVideoAction?.length > 0) {
+            response = remove(storedVideoAction, (item: any) => item.author === user.id).filter(
+                (item: any) => item.id !== id
+            );
+            response = [...response, data];
+            storedVideoAction = storedVideoAction.concat(response);
         } else {
-            storedVideoAction = [req.body];
+            storedVideoAction = [data];
+            response = [data];
         }
         localStorage.setItem('videoAction', JSON.stringify(storedVideoAction));
         return res(
             ctx.json({
-                data: storedVideoAction,
+                data: response,
             })
         );
     }),
@@ -53,11 +64,17 @@ export const worker = setupWorker(
     //mock api get list video like/dislike of each user
     rest.get('/api/get-video-action', (req, res, ctx) => {
         const storedVideoAction = JSON.parse(localStorage.getItem('videoAction')!);
-        return res(
-            ctx.json({
-                data: storedVideoAction,
-            })
-        );
+        const user = JSON.parse(localStorage.getItem('userLogged')!);
+        if (!user) {
+            return res(ctx.status(401), ctx.json({ success: false, message: 'not authorized' }));
+        } else {
+            const response = storedVideoAction.filter((item: any) => item.author === user.id);
+            return res(
+                ctx.json({
+                    data: response,
+                })
+            );
+        }
     }),
     //mock api login
     rest.post<UserInfo>('/api/login', (req, res, ctx) => {
@@ -109,20 +126,21 @@ export const worker = setupWorker(
     rest.post<VideoInfo>('/api/share-youtube-video', (req, res, ctx) => {
         const { title, url, cover } = req.body;
         const storedVideoList = JSON.parse(localStorage.getItem('videoList')!);
-        const defaultThumb = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEJNhL2iJjNAlS7mbgcQDddFu8VKaFIm-D8A&usqp=CAU'
+        const defaultThumb =
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEJNhL2iJjNAlS7mbgcQDddFu8VKaFIm-D8A&usqp=CAU';
         const videoResponse = {
             id: storedVideoList?.length + 1,
             createTime: new Date(),
             title: title,
             cover: cover || defaultThumb,
-            url:url,
+            url: url,
             view: Math.floor(Math.random() * 500) + 100,
             duration: '0:42',
             likes: Math.floor(Math.random() * 500) + 100,
             dislikes: Math.floor(Math.random() * 500) + 100,
             author: JSON.parse(localStorage.getItem('userLogged')!),
             isTrending: false,
-        }
+        };
         storedVideoList.push(videoResponse);
         localStorage.setItem('videoList', JSON.stringify(storedVideoList));
         return res(
@@ -132,4 +150,3 @@ export const worker = setupWorker(
         );
     })
 );
-

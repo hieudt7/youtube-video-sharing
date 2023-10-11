@@ -5,14 +5,15 @@ import React, { useEffect } from 'react';
 import VideoItem from '../video-list-item';
 import { getAllVideo, getVideoAction, type VideoInfo } from '@/services/video';
 
-import { useCommonDataContext } from '@/contexts';
+import { useCommonDataContext, useAuthContext } from '@/contexts';
 
 export default function VideoList() {
     const { setVideoActionList, isReloadVideoList, videoList, setVideoList } = useCommonDataContext();
+    const { isAuthenticated } = useAuthContext();
     useEffect(() => {
         initGetAllVideo();
         initGetVideoAction();
-    }, [isReloadVideoList]);
+    }, [isReloadVideoList, isAuthenticated]);
 
     const initGetAllVideo = async () => {
         try {

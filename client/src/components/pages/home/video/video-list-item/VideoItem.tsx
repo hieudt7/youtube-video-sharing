@@ -4,7 +4,7 @@ import React from 'react';
 import { useState } from 'react';
 import Image from 'next/image';
 
-import { videoAction, removeVideoAction, type VideoInfo, videoActionEnum, videoActionInfo } from '@/services/video';
+import { videoAction, removeVideoAction, type VideoInfo, videoActionEnum } from '@/services/video';
 import { DISPLAY_DATE_FORMAT } from '@/constants/time';
 
 import Box from '@mui/material/Box';
@@ -16,7 +16,9 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import IconButton from '@mui/material/IconButton';
 
-import { useCommonDataContext } from '@/contexts';
+import { toast } from 'react-toastify';
+
+import { useCommonDataContext, useAuthContext } from '@/contexts';
 
 import dayjs from 'dayjs';
 
@@ -25,13 +27,18 @@ type Props = {
 };
 export default function VideoItem({ data }: Props) {
     const { videoActionList, setVideoActionList } = useCommonDataContext();
+    const { isAuthenticated } = useAuthContext();
     const [isPlayVideo, setIsPlayVideo] = useState<boolean>(false);
 
     const handleVideoAction = async (id: string, action: videoActionEnum) => {
+        if (!isAuthenticated) {
+            toast.error('Please login to continue.');
+            return;
+        }
         const videoInfoResponse = await videoAction({
             payload: {
                 id,
-                action
+                action,
             },
         });
         if (videoInfoResponse) {
@@ -50,7 +57,6 @@ export default function VideoItem({ data }: Props) {
             setVideoActionList(videoInfoResponse);
         }
     };
-
     return (
         <Box
             role="presentation"

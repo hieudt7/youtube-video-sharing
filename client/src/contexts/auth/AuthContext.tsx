@@ -30,17 +30,19 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(
         JSON.parse(localStorage.getItem('userLogged')!) ? true : false //TODO: check isauthenticated if get user have data
     );
-    const [user, setUser] = useState<UserInfo | null>(JSON.parse(localStorage.getItem('userLogged')!)); //TODO: set token from BE
+    const [user, setUser] = useState<UserInfo | null>(JSON.parse(localStorage.getItem('userLogged')!)); //TODO: set token from BE using JWT
 
     const handleSignedIn = (data: UserInfo) => {
         setUser(data);
         setIsAuthenticated(true);
     };
+
     const signOut = () => {
-        setUser(null);
-        setIsAuthenticated(false);
         //TODO: handle refresh token from BE
         localStorage.removeItem('userLogged');
+        setUser(null);
+        setIsAuthenticated(false);
+        window.location.reload();
     };
     const signIn = useCallback(
         async (email: string, password: string) => {
@@ -48,7 +50,7 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
                 const loginResponse = await login({
                     payload: {
                         email,
-                        password
+                        password,
                     },
                 });
                 if (loginResponse) {
@@ -57,7 +59,8 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
                     toast.error('Something went wrong! Please try again.');
                 }
             } catch (error) {
-                toast.error('Login failed! Check email and password.');//TODO handle error message from sever
+                console.log(error);
+                toast.error('Login failed! Check email and password.'); //TODO handle error message from sever
             } finally {
             }
         },

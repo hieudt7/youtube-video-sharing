@@ -19,7 +19,7 @@ import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { toast } from 'react-toastify';
 
-import { useCommonDataContext, useWebSocket } from '@/contexts';
+import { useCommonDataContext, useWebSocket,useAuthContext } from '@/contexts';
 import { Validation } from '@/constants/regex';
 import { shareYoutubeVideo } from '@/services/video';
 
@@ -34,6 +34,7 @@ const Transition = React.forwardRef(function Transition(
 
 export default function ShareYoutubeVideoDialog() {
     const { setIsReloadVideoList } = useCommonDataContext();
+    const { isAuthenticated } = useAuthContext();
     const { socket, room } = useWebSocket();
 
     const formSchema = Yup.object().shape({
@@ -59,6 +60,10 @@ export default function ShareYoutubeVideoDialog() {
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
+        if (!isAuthenticated) {
+            toast.error('Please login to continue.');
+            return;
+        }
         setOpen(true);
     };
 
