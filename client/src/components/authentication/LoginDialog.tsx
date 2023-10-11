@@ -1,4 +1,5 @@
 'use client';
+
 import React from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -11,8 +12,6 @@ import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
-
-
 
 import { useForm, Controller } from 'react-hook-form';
 
@@ -30,7 +29,11 @@ const Transition = React.forwardRef(function Transition(
     return <Zoom style={{ transitionDelay: '100ms' }} ref={ref} {...props} />;
 });
 
-export default function LoginDialog() {
+type LoginDialogProps = {
+    closeMenuItem: () => void;
+};
+
+export default function LoginDialog({ closeMenuItem }: LoginDialogProps) {
     const { signIn } = useAuthContext();
 
     const formSchema = Yup.object().shape({
@@ -56,10 +59,12 @@ export default function LoginDialog() {
 
     const handleClickOpen = () => {
         setOpen(true);
+        closeMenuItem();
     };
 
     const handleClose = () => {
         setOpen(false);
+        closeMenuItem();
     };
 
     const handleSaveForm = async () => {
@@ -79,6 +84,11 @@ export default function LoginDialog() {
                 keepMounted
                 onClose={handleClose}
                 aria-describedby="alert-dialog-slide-description"
+                onKeyDown={(event) => {
+                    if (event.key === 'Tab') {
+                        event.stopPropagation(); //fix issues tab when modal in MenuItem MUI
+                    }
+                }}
             >
                 <DialogTitle>{'User Login form'}</DialogTitle>
                 <DialogContent>
@@ -86,6 +96,7 @@ export default function LoginDialog() {
                         render={({ field }) => (
                             <FormControl fullWidth size="small" variant="outlined" sx={{ padding: '15px 0' }}>
                                 <TextField
+                                    autoFocus
                                     size="small"
                                     label="Email*"
                                     error={!!errors.email}
@@ -104,6 +115,7 @@ export default function LoginDialog() {
                         render={({ field }) => (
                             <FormControl fullWidth size="small" variant="outlined" sx={{ padding: '15px 0' }}>
                                 <TextField
+                                    autoFocus
                                     size="small"
                                     label="Confirm password*"
                                     error={!!errors.password}

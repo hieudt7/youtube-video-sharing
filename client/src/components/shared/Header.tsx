@@ -1,4 +1,5 @@
 'use client';
+
 import React from 'react';
 import Stack from '@mui/material/Stack';
 import Image from 'next/image';
@@ -72,7 +73,7 @@ export default function Header() {
                     </FormControl>
                 </div>
                 <div>
-                    <Stack spacing={2} direction="row" className='items-center'>
+                    <Stack spacing={2} direction="row" className="items-center">
                         <div>
                             <ShareYoutubeVideoDialog />
                         </div>
@@ -110,7 +111,12 @@ export default function Header() {
                                     <MenuItem onClick={handleCloseUserMenu}>
                                         <Typography textAlign="center">Profile</Typography>
                                     </MenuItem>
-                                    <MenuItem onClick={signOut}>
+                                    <MenuItem
+                                        onClick={() => {
+                                            handleCloseUserMenu();
+                                            signOut();
+                                        }}
+                                    >
                                         <Typography textAlign="center">Logut</Typography>
                                     </MenuItem>
                                 </Menu>
@@ -142,8 +148,8 @@ export default function Header() {
                                     open={Boolean(anchorElUser)}
                                     onClose={handleCloseUserMenu}
                                 >
-                                    <LoginDialog />
-                                    <RegisterDialog />
+                                    <LoginDialog closeMenuItem={handleCloseUserMenu}/>
+                                    <RegisterDialog closeMenuItem={handleCloseUserMenu}/>
                                 </Menu>
                             </>
                         )}

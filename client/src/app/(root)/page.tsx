@@ -1,4 +1,5 @@
 'use client';
+
 import React, { useEffect } from 'react';
 import VideoList from '@/components/pages/home/video/video-list';
 import { useCommonDataContext, useWebSocket } from '@/contexts';
@@ -24,7 +25,6 @@ export default function Home() {
         });
     }, [socket]);
 
-    console.log(socket);
     return (
         <div className="w-full pt-6">
             <VideoList />

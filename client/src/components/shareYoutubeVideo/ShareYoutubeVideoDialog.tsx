@@ -1,4 +1,5 @@
 'use client';
+
 import React from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -33,7 +34,7 @@ const Transition = React.forwardRef(function Transition(
 
 export default function ShareYoutubeVideoDialog() {
     const { setIsReloadVideoList } = useCommonDataContext();
-    const { socket,room } = useWebSocket();
+    const { socket, room } = useWebSocket();
 
     const formSchema = Yup.object().shape({
         url: Yup.string()
@@ -88,7 +89,7 @@ export default function ShareYoutubeVideoDialog() {
             }
         })();
     };
-   
+
     return (
         <>
             <IconButton aria-label="toggle password visibility" edge="end" onClick={handleClickOpen}>

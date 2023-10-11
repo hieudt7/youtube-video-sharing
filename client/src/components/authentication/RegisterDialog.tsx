@@ -1,4 +1,5 @@
 'use client';
+
 import React from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -28,7 +29,11 @@ const Transition = React.forwardRef(function Transition(
     return <Zoom style={{ transitionDelay: '100ms' }} ref={ref} {...props} />;
 });
 
-export default function RegisterDialog() {
+type RegisterDialogProps = {
+    closeMenuItem: () => void;
+};
+
+export default function RegisterDialog({ closeMenuItem }: RegisterDialogProps) {
     const { signUp } = useAuthContext();
 
     const formSchema = Yup.object().shape({
@@ -62,15 +67,17 @@ export default function RegisterDialog() {
 
     const handleClickOpen = () => {
         setOpen(true);
+        closeMenuItem();
     };
 
     const handleClose = () => {
         setOpen(false);
+        closeMenuItem();
     };
 
     const handleSaveForm = async () => {
         handleSubmit((formValue) => {
-            signUp(formValue.email, formValue.password,formValue.username);
+            signUp(formValue.email, formValue.password, formValue.username);
         })();
     };
 
@@ -84,7 +91,11 @@ export default function RegisterDialog() {
                 TransitionComponent={Transition}
                 keepMounted
                 onClose={handleClose}
-                aria-describedby="alert-dialog-slide-description"
+                onKeyDown={(event) => {
+                    if (event.key === 'Tab') {
+                        event.stopPropagation(); //fix issues tab when modal in MenuItem MUI
+                    }
+                }}
             >
                 <DialogTitle>{'User Register form'}</DialogTitle>
                 <DialogContent>

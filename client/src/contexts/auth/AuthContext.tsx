@@ -1,4 +1,5 @@
 'use client';
+
 import { useContext, useState, createContext, useCallback, useMemo } from 'react';
 import { toast } from 'react-toastify';
 import { login, register, type UserInfo } from '@/services/authentication';
@@ -46,8 +47,8 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
             try {
                 const loginResponse = await login({
                     payload: {
-                        email: email,
-                        password: password,
+                        email,
+                        password
                     },
                 });
                 if (loginResponse) {
@@ -67,9 +68,9 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
             try {
                 const registerResponse = await register({
                     payload: {
-                        email: email,
-                        password: password,
-                        username: username,
+                        email,
+                        password,
+                        username,
                     },
                 });
                 if (registerResponse) {

@@ -1,6 +1,7 @@
 'use client';
+
 import React from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 
 import { videoAction, removeVideoAction, type VideoInfo, videoActionEnum, videoActionInfo } from '@/services/video';
@@ -29,8 +30,8 @@ export default function VideoItem({ data }: Props) {
     const handleVideoAction = async (id: string, action: videoActionEnum) => {
         const videoInfoResponse = await videoAction({
             payload: {
-                id: id,
-                action: action,
+                id,
+                action
             },
         });
         if (videoInfoResponse) {
@@ -41,8 +42,8 @@ export default function VideoItem({ data }: Props) {
     const handleRemoveVideoACtion = async (id: string, action: videoActionEnum) => {
         const videoInfoResponse = await removeVideoAction({
             payload: {
-                id: id,
-                action: action,
+                id,
+                action,
             },
         });
         if (videoInfoResponse) {
@@ -76,16 +77,16 @@ export default function VideoItem({ data }: Props) {
             <div className="ytb-video-thumb pt-3 relative">
                 {isPlayVideo ? (
                     <iframe
-                    src={`https://www.youtube.com/embed/${data?.url}?autoplay=1&mute=1`}
-                    allow="autoplay; encrypted-media"
-                    allowFullScreen
-                    title="video"
-                    height={350}
-                /> 
+                        src={`https://www.youtube.com/embed/${data?.url}?autoplay=1&mute=1`}
+                        allow="autoplay; encrypted-media"
+                        allowFullScreen
+                        title="video"
+                        height={350}
+                    />
                 ) : (
                     <>
-                        <IconButton onClick={() => setIsPlayVideo(true)} className='play-video-button'>
-                            <PlayCircleIcon fontSize={'large'} sx={{ color: '#fff',fontSize:'80px' }} />
+                        <IconButton onClick={() => setIsPlayVideo(true)} className="play-video-button">
+                            <PlayCircleIcon fontSize={'large'} sx={{ color: '#fff', fontSize: '80px' }} />
                         </IconButton>
                         <Image src={data?.cover ?? ''} alt="care 1" className="w-full" width={100} height={100} />
                     </>

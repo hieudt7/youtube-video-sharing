@@ -1,4 +1,5 @@
 'use client';
+
 import React, { useEffect } from 'react';
 
 import VideoItem from '../video-list-item';
@@ -35,7 +36,7 @@ export default function VideoList() {
         } finally {
         }
     };
-
+    //TODO implement infinite scroll
     return (
         <>
             <ul className={''}>

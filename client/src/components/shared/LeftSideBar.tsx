@@ -48,7 +48,9 @@ export default function LeftSideBar() {
                 <Divider />
                 <div className="px-4 py-4">
                     <p className="text-[15px] text-[#999] mb-4">Log in to view your "Followed" content.</p>
-                    <Button variant="outlined" className="w-full">Log in</Button>
+                    <Button variant="outlined" className="w-full">
+                        Log in
+                    </Button>
                 </div>
             </Box>
         </div>
