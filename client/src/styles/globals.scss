@@ -9,7 +9,7 @@
 
 main{
     // min-height: calc(100vh - 80px);
-    background-color: #fff;
+    @apply bg-[#f0f2f5] lg:bg-white;
 }
 
 iframe{
@@ -29,4 +29,7 @@ iframe{
     &:hover{
         transform:translate(-50%,-50%) scale(0.85);
     }
+}
+.desktop-view{
+    @apply hidden lg:block;
 }

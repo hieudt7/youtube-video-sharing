@@ -9,7 +9,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Zoom from '@mui/material/Zoom';
 import { TransitionProps } from '@mui/material/transitions';
 import MenuItem from '@mui/material/MenuItem';
-import Typography from '@mui/material/Typography';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import PersonAdd from '@mui/icons-material/PersonAdd';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
 
@@ -84,7 +85,10 @@ export default function RegisterDialog({ closeMenuItem }: RegisterDialogProps) {
     return (
         <>
             <MenuItem onClick={handleClickOpen}>
-                <Typography textAlign="center">Register</Typography>
+                <ListItemIcon>
+                    <PersonAdd fontSize="small" />
+                </ListItemIcon>
+                Register
             </MenuItem>
             <Dialog
                 open={open}

@@ -1,41 +1,49 @@
 'use client';
 
 import React from 'react';
+
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import CameraIndoorIcon from '@mui/icons-material/CameraIndoor';
+import WhatshotIcon from '@mui/icons-material/Whatshot';
+import QueueMusicIcon from '@mui/icons-material/QueueMusic';
+import LiveTvIcon from '@mui/icons-material/LiveTv';
 
 import { toast } from 'react-toastify';
+
+import LoginDialog from '@/components/authentication/LoginDialog';
+
+import { useAuthContext } from '@/contexts';
 
 const leftMenu = [
     {
         label: 'Home',
-        icon: <MailIcon />,
+        icon: <CameraIndoorIcon />,
     },
     {
         label: 'Trending',
-        icon: <InboxIcon />,
+        icon: <WhatshotIcon />,
     },
     {
         label: 'Music',
-        icon: <MailIcon />,
+        icon: <QueueMusicIcon />,
     },
     {
         label: 'LIVE',
-        icon: <InboxIcon />,
+        icon: <LiveTvIcon />,
     },
 ];
 
 export default function LeftSideBar() {
+    const { isAuthenticated } = useAuthContext();
+
     return (
-        <div className="w-[350px] min-h-screen bg-white">
+        <div className="w-[350px] min-h-screen bg-white sticky top-0 desktop-view">
             <Box role="presentation" sx={{ width: '100%' }}>
                 <List>
                     {leftMenu.map((item) => (
@@ -52,12 +60,12 @@ export default function LeftSideBar() {
                     ))}
                 </List>
                 <Divider />
-                <div className="px-4 py-4">
-                    <p className="text-[15px] text-[#999] mb-4">Log in to view your "Followed" content.</p>
-                    <Button variant="outlined" className="w-full">
-                        Log in
-                    </Button>
-                </div>
+                {!isAuthenticated && (
+                    <div className="px-4 py-4">
+                        <p className="text-[15px] text-[#999] mb-4">Log in to view your "Followed" content.</p>
+                        <LoginDialog isPrimaryButton={true} />
+                    </div>
+                )}
             </Box>
         </div>
     );

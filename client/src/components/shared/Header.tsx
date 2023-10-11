@@ -1,10 +1,12 @@
 'use client';
 
 import React from 'react';
-import Stack from '@mui/material/Stack';
 import Image from 'next/image';
+
 import { toast } from 'react-toastify';
 
+import { styled, alpha } from '@mui/material/styles';
+import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
@@ -13,10 +15,16 @@ import FormControl from '@mui/material/FormControl';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import Typography from '@mui/material/Typography';
+import MenuItem from '@mui/material/MenuItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Divider from '@mui/material/Divider';
 import Avatar from '@mui/material/Avatar';
+import MenuIcon from '@mui/icons-material/Menu';
+import InputBase from '@mui/material/InputBase';
+import PersonAdd from '@mui/icons-material/PersonAdd';
+import Settings from '@mui/icons-material/Settings';
+import Logout from '@mui/icons-material/Logout';
 
 import LoginDialog from '@/components/authentication/LoginDialog';
 import RegisterDialog from '@/components/authentication/RegisterDialog';
@@ -27,8 +35,51 @@ import { headerStyles } from './variants';
 
 import { useAuthContext } from '@/contexts';
 
+const Search = styled('div')(({ theme }) => ({
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    '&:hover': {
+        backgroundColor: alpha(theme.palette.common.white, 0.25),
+    },
+    marginRight: theme.spacing(2),
+    marginLeft: theme.spacing(3),
+    width: '100%',
+    [theme.breakpoints.down('sm')]: {
+        display: 'none',
+    },
+}));
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+    padding: theme.spacing(0, 2),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+    color: 'inherit',
+    '& .MuiInputBase-input': {
+        padding: theme.spacing(1, 1, 1, 0),
+        // vertical padding + font size from searchIcon
+        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+        transition: theme.transitions.create('width'),
+        width: '100%',
+        color: '#fff',
+        [theme.breakpoints.up('sm')]: {
+            width: '12ch',
+            '&:focus': {
+                width: '20ch',
+            },
+        },
+    },
+}));
+
 export default function Header() {
-    const { headerWrapper, searchWrapper } = headerStyles();
+    const { headerMenuMobile, headerMenuPc, headerWrapper, searchWrapper } = headerStyles();
     const { isAuthenticated, user, signOut } = useAuthContext();
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -42,7 +93,25 @@ export default function Header() {
     return (
         <>
             <header className={headerWrapper()}>
-                <div className="">
+                <div className={headerMenuMobile()}>
+                    <IconButton
+                        size="large"
+                        edge="start"
+                        color="inherit"
+                        aria-label="open drawer"
+                        sx={{ mr: 2, color: '#fff' }}
+                    >
+                        <MenuIcon />
+                    </IconButton>
+                    <Image src={logo} alt="logo" className="w-[130px]" />
+                    <Search>
+                        <SearchIconWrapper>
+                            <SearchIcon sx={{ color: '#fff' }} />
+                        </SearchIconWrapper>
+                        <StyledInputBase placeholder="Search…" inputProps={{ 'aria-label': 'search' }} />
+                    </Search>
+                </div>
+                <div className={headerMenuPc()}>
                     <Image src={logo} alt="logo" className="w-[130px]" />
                 </div>
                 <div className={searchWrapper()}>
@@ -95,26 +164,54 @@ export default function Header() {
                                     </IconButton>
                                 </Tooltip>
                                 <Menu
-                                    sx={{ mt: '45px' }}
                                     id="menu-appbar"
                                     anchorEl={anchorElUser}
-                                    anchorOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'right',
-                                    }}
-                                    keepMounted
-                                    transformOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'right',
-                                    }}
                                     open={Boolean(anchorElUser)}
                                     onClose={handleCloseUserMenu}
+                                    PaperProps={{
+                                        elevation: 0,
+                                        sx: {
+                                            overflow: 'visible',
+                                            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                                            mt: 1.5,
+                                            '& .MuiAvatar-root': {
+                                                width: 32,
+                                                height: 32,
+                                                ml: -0.5,
+                                                mr: 1,
+                                            },
+                                            '&:before': {
+                                                content: '""',
+                                                display: 'block',
+                                                position: 'absolute',
+                                                top: 0,
+                                                right: 14,
+                                                width: 10,
+                                                height: 10,
+                                                bgcolor: 'background.paper',
+                                                transform: 'translateY(-50%) rotate(45deg)',
+                                                zIndex: 0,
+                                            },
+                                        },
+                                    }}
+                                    transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                                    anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                                 >
-                                    <MenuItem>
-                                        <Typography textAlign="center">Hi, {user?.username}</Typography>
+                                    <MenuItem onClick={handleCloseUserMenu}>
+                                        <Avatar /> Hi, {user?.username}
+                                    </MenuItem>
+                                    <Divider />
+                                    <MenuItem onClick={handleCloseUserMenu}>
+                                        <ListItemIcon>
+                                            <PersonAdd fontSize="small" />
+                                        </ListItemIcon>
+                                        Add another account
                                     </MenuItem>
                                     <MenuItem onClick={handleCloseUserMenu}>
-                                        <Typography textAlign="center">Profile</Typography>
+                                        <ListItemIcon>
+                                            <Settings fontSize="small" />
+                                        </ListItemIcon>
+                                        Settings
                                     </MenuItem>
                                     <MenuItem
                                         onClick={() => {
@@ -122,7 +219,10 @@ export default function Header() {
                                             signOut();
                                         }}
                                     >
-                                        <Typography textAlign="center">Logut</Typography>
+                                        <ListItemIcon>
+                                            <Logout fontSize="small" />
+                                        </ListItemIcon>
+                                        Logout
                                     </MenuItem>
                                 </Menu>
                             </>
@@ -138,20 +238,39 @@ export default function Header() {
                                     </IconButton>
                                 </Tooltip>
                                 <Menu
-                                    sx={{ mt: '45px' }}
-                                    id="menu-appbar"
+                                    id="register-emnu"
                                     anchorEl={anchorElUser}
-                                    anchorOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'right',
-                                    }}
-                                    keepMounted
-                                    transformOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'right',
-                                    }}
                                     open={Boolean(anchorElUser)}
                                     onClose={handleCloseUserMenu}
+                                    PaperProps={{
+                                        elevation: 0,
+                                        sx: {
+                                            overflow: 'visible',
+                                            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                                            mt: 1.5,
+                                            '& .MuiAvatar-root': {
+                                                width: 32,
+                                                height: 32,
+                                                ml: -0.5,
+                                                mr: 1,
+                                            },
+                                            '&:before': {
+                                                content: '""',
+                                                display: 'block',
+                                                position: 'absolute',
+                                                top: 0,
+                                                right: 14,
+                                                width: 10,
+                                                height: 10,
+                                                bgcolor: 'background.paper',
+                                                transform: 'translateY(-50%) rotate(45deg)',
+                                                zIndex: 0,
+                                            },
+                                        },
+                                    }}
+                                    keepMounted
+                                    transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                                    anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                                 >
                                     <LoginDialog closeMenuItem={handleCloseUserMenu} />
                                     <RegisterDialog closeMenuItem={handleCloseUserMenu} />

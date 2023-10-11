@@ -27,7 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                             <ThemeRegistry options={{ key: 'mui' }}>
                                 <Header />
                                 <main className="min-h-screen px-6">
-                                    <div className="flex flex-row justify-between bg-[#f0f2f5]">
+                                    <div className="flex flex-row bg-[#f0f2f5] justify-center lg:justify-between relative">
                                         <LeftSideBar />
                                         <div className="max-w-[600px]">{children}</div>
                                         <RightSideBar />

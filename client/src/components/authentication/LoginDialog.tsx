@@ -9,7 +9,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Zoom from '@mui/material/Zoom';
 import { TransitionProps } from '@mui/material/transitions';
 import MenuItem from '@mui/material/MenuItem';
-import Typography from '@mui/material/Typography';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import LoginIcon from '@mui/icons-material/Login';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
 
@@ -30,10 +31,11 @@ const Transition = React.forwardRef(function Transition(
 });
 
 type LoginDialogProps = {
-    closeMenuItem: () => void;
+    closeMenuItem?: () => void;
+    isPrimaryButton?: boolean;
 };
 
-export default function LoginDialog({ closeMenuItem }: LoginDialogProps) {
+export default function LoginDialog({ closeMenuItem, isPrimaryButton }: LoginDialogProps) {
     const { signIn } = useAuthContext();
 
     const formSchema = Yup.object().shape({
@@ -59,25 +61,39 @@ export default function LoginDialog({ closeMenuItem }: LoginDialogProps) {
 
     const handleClickOpen = () => {
         setOpen(true);
-        closeMenuItem();
+        if (closeMenuItem) {
+            closeMenuItem();
+        }
     };
 
     const handleClose = () => {
         setOpen(false);
-        closeMenuItem();
+        if (closeMenuItem) {
+            closeMenuItem();
+        }
     };
 
     const handleSaveForm = async () => {
         handleSubmit((formValue) => {
             signIn(formValue.email, formValue.password);
+            handleClose();
         })();
     };
 
     return (
         <>
-            <MenuItem onClick={handleClickOpen}>
-                <Typography textAlign="center">Login</Typography>
-            </MenuItem>
+            {isPrimaryButton ? (
+                <Button variant="outlined" className="w-full" onClick={handleClickOpen}>
+                    Log in
+                </Button>
+            ) : (
+                <MenuItem onClick={handleClickOpen}>
+                    <ListItemIcon>
+                        <LoginIcon fontSize="small" />
+                    </ListItemIcon>
+                    Login
+                </MenuItem>
+            )}
             <Dialog
                 open={open}
                 TransitionComponent={Transition}
