@@ -10,7 +10,13 @@ Git
 
 ## Installation & Configuration
 Follow these steps to set up the project on your local machine:\
-Clone the GitHub repository, run: `git clone https://github.com/hieudt7/youtube-video-sharing.git`
+Clone the GitHub repository, run: `git clone https://github.com/hieudt7/youtube-video-sharing.git`\
+
+This project have 2 version:/
+1.Mock api with **Mock Service Worker** and Websocket branch `developer` was merge into `main`
+2.Mock api using localstorage only and Websocket branch `web-local-storage`
+**Recommend using on branch `developer` with Mock Service Worker is better**
+
 ### Run websocket server
 To acess into websocket sever project, run: `cd youtube-video-sharing/server`\
 When you first clone or upgrade dependencies, run: `npm install`\
@@ -27,7 +33,7 @@ To run the test suite, use: `npm run test`
 ### Configure the application
 Create a **.env.local** file in the project root and set any necessary environment variables.
 
-## Database sẹtup
+## Database setup
 This project use **Mock Service Worker** to mock api for front-end side and store data in **localstorage**
 
 ## Usage
