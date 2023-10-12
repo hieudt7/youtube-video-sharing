@@ -49,4 +49,10 @@ export const userListData = [
         email:'admin@gmail.com',
         password:'123456',
     }
-]
+];
+export const setVideoList=()=>{
+    localStorage.setItem('videoList', JSON.stringify(VideoListData));
+}
+export const setUserList=()=>{
+    localStorage.setItem('userList', JSON.stringify(userListData));
+}

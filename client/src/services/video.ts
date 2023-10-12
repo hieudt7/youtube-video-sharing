@@ -1,7 +1,6 @@
-import client from '@/utils/httpClient';
-import { handleAxiosResponse, handleAxiosError } from './common';
-import type { ApiResponse } from './common';
 import type { UserInfo } from './authentication';
+import { VideoListData } from '@/mocks/data';
+import { remove } from 'lodash';
 export interface VideoInfo {
   id?: string;
   createTime?: string;
@@ -35,11 +34,15 @@ type ShareYoutubeVideoParams = {
 };
 
 export function getAllVideo() {
-  return new Promise<VideoInfo[]>((resolve, reject) => {
-    client
-      .get<ApiResponse<VideoInfo[]>>(`/api/get-all-video`)
-      .then(handleAxiosResponse(resolve))
-      .catch(handleAxiosError(reject));
+  return new Promise<VideoInfo[]>((resolve, _reject) => {
+    const storedVideoList = localStorage.getItem('videoList');
+    const videoListResponse = storedVideoList
+      ? JSON.parse(storedVideoList)
+      : VideoListData;
+    if (!storedVideoList) {
+      localStorage.setItem('videoList', JSON.stringify(VideoListData));
+    }
+    resolve(videoListResponse);
   });
 }
 
@@ -50,12 +53,29 @@ export function videoAction(params: SearchEmailTemplatesParams) {
       action: '',
     },
   } = params;
+  return new Promise<videoActionInfo[]>((resolve, _reject) => {
+    let storedVideoAction = JSON.parse(localStorage.getItem('videoAction')!);
+    const { id } = payload;
+    const user = JSON.parse(localStorage.getItem('userLogged')!);
+    const data = {
+      ...payload,
+      author: user.id,
+    };
+    let response: any;
+    if (storedVideoAction?.length > 0) {
+      response = remove(
+        storedVideoAction,
+        (item: any) => item.author === user.id,
+      ).filter((item: any) => item.id !== id);
+      response = [...response, data];
+      storedVideoAction = storedVideoAction.concat(response);
+    } else {
+      storedVideoAction = [data];
+      response = [data];
+    }
+    localStorage.setItem('videoAction', JSON.stringify(storedVideoAction));
 
-  return new Promise<videoActionInfo[]>((resolve, reject) => {
-    client
-      .post(`/api/video-action`, payload)
-      .then(handleAxiosResponse(resolve))
-      .catch(handleAxiosError(reject));
+    resolve(response);
   });
 }
 
@@ -67,20 +87,29 @@ export function removeVideoAction(params: SearchEmailTemplatesParams) {
     },
   } = params;
 
-  return new Promise<videoActionInfo[]>((resolve, reject) => {
-    client
-      .post(`/api/video-action-remove`, payload)
-      .then(handleAxiosResponse(resolve))
-      .catch(handleAxiosError(reject));
+  return new Promise<videoActionInfo[]>((resolve, _reject) => {
+    let storedVideoAction = JSON.parse(localStorage.getItem('videoAction')!);
+    const { id } = payload;
+    if (storedVideoAction) {
+      storedVideoAction = storedVideoAction.filter(
+        (item: any) => item.id !== id,
+      ); //
+    }
+    localStorage.setItem('videoAction', JSON.stringify(storedVideoAction));
+    resolve(storedVideoAction);
   });
 }
 
 export function getVideoAction() {
-  return new Promise<videoActionInfo[]>((resolve, reject) => {
-    client
-      .get<ApiResponse<videoActionInfo[]>>(`/api/get-video-action`)
-      .then(handleAxiosResponse(resolve))
-      .catch(handleAxiosError(reject));
+  return new Promise<videoActionInfo[]>((resolve, _reject) => {
+    const storedVideoAction = JSON.parse(localStorage.getItem('videoAction')!);
+    const user = JSON.parse(localStorage.getItem('userLogged')!);
+    if (user) {
+      const response = storedVideoAction.filter(
+        (item: any) => item.author === user.id,
+      );
+      resolve(response);
+    }
   });
 }
 
@@ -94,11 +123,27 @@ export function shareYoutubeVideo(params: ShareYoutubeVideoParams) {
       author: null,
     },
   } = params;
+  return new Promise<VideoInfo>((resolve, _reject) => {
+    const { title, url, cover } = payload;
+    const storedVideoList = JSON.parse(localStorage.getItem('videoList')!);
+    const defaultThumb =
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEJNhL2iJjNAlS7mbgcQDddFu8VKaFIm-D8A&usqp=CAU';
+    const videoResponse = {
+      id: storedVideoList?.length + 1,
+      createTime: new Date().toDateString(),
+      title: title,
+      cover: cover || defaultThumb,
+      url: url,
+      view: Math.floor(Math.random() * 500) + 100,
+      duration: '0:42',
+      likes: Math.floor(Math.random() * 500) + 100,
+      dislikes: Math.floor(Math.random() * 500) + 100,
+      author: JSON.parse(localStorage.getItem('userLogged')!),
+      isTrending: false,
+    };
+    storedVideoList.push(videoResponse);
+    localStorage.setItem('videoList', JSON.stringify(storedVideoList));
 
-  return new Promise<VideoInfo>((resolve, reject) => {
-    client
-      .post(`/api/share-youtube-video`, payload)
-      .then(handleAxiosResponse(resolve))
-      .catch(handleAxiosError(reject));
+    resolve(videoResponse);
   });
 }

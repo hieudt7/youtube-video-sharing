@@ -3,15 +3,19 @@
 import React, { useEffect } from 'react';
 import VideoList from '@/components/pages/home/video/video-list';
 import { useCommonDataContext, useWebSocket } from '@/contexts';
-if (process.env.NEXT_PUBLIC_IS_MOCK_API) {
-  const { worker } = require('@/mocks/browser');
-  worker.start();
-}
+import { setVideoList,setUserList } from '@/mocks/data';
+
+// if (process.env.NEXT_PUBLIC_IS_MOCK_API) {
+//   const { worker } = require('@/mocks/browser');
+//   worker.start();
+// }
 
 export default function Home() {
   const { setVideoNotification } = useCommonDataContext();
   const { socket } = useWebSocket();
   useEffect(() => {
+    setVideoList();
+    setUserList();
     socket.on('receive_message', (data: any) => {
       if (data.sender !== socket.id) {
         setVideoNotification((prev) => [...prev, data.videoNotification]);
