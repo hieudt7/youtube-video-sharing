@@ -4,6 +4,8 @@
   "scripts": {
     "dev": "next dev",
     "dev:sit": "env-cmd -f .env.sit.local next dev",
+    "dev:uat": "env-cmd -f .env.uat.local next dev",
+    "dev:prod": "env-cmd -f .env.prod.local next dev",
     "build": "next build",
     "start": "next start",
     "export": "next export",

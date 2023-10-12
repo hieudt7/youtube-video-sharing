@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import VideoList from '@/components/pages/home/video/video-list';
 import { useCommonDataContext, useWebSocket } from '@/contexts';
-if (!process.env.NEXT_PUBLIC_IS_MOCK_API) {
+if (process.env.NEXT_PUBLIC_IS_MOCK_API) {
   const { worker } = require('@/mocks/browser');
   worker.start();
 }
