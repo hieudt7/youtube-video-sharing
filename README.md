@@ -1,5 +1,5 @@
 # YouTube Video Sharing React App
-The YouTube Video Sharing Project is a web application developed using React.js and Next.js.\ 
+The YouTube Video Sharing Project is a web application developed using React.js and Next.js.
 Its primary purpose is to allow users to share YouTube videos, view videos shared by other users, and engage with the shared videos through likes and dislikes.It aims to create a community where users can discover and share interesting video content.
 
 ## Prerequisites
@@ -37,21 +37,21 @@ Create a **.env.local** file in the project root and set any necessary environme
 This project use **Mock Service Worker** to mock api for front-end side and store data in **localstorage**
 
 ## Usage
-Here's a brief guide on how to use the application:\
+Here's a brief guide on how to use the application:
 ### User Registration & Authentication:
 Register for a new account.\
 Log in using your credentials.\
 Log out when you're done using the application\
-User can login with default account **admin@gmail.com** password **123456**\
+User can login with default account **admin@gmail.com** password **123456**
 ### Video Sharing
 Share YouTube videos by providing their URLs.\
-Add video titles and thumbnails.\
+Add video titles and thumbnails.
 ### Video Viewing
 Get real time notification when new videos shared by other users.\
-Watch videos using the integrated YouTube player.\
+Watch videos using the integrated YouTube player.
 ### Interaction
 Like or dislike videos you watch.\
-See the number of views on each video.\
+See the number of views on each video.
 
 ## Troubleshooting
 In Front-end side are using **Mock Service Worker** to mock api and response, need to improve folow thing:\
@@ -59,7 +59,7 @@ JWT for authentication\
 Implement infinite scroll for list video\
 Implement loading screen when waitng api response\
 Itegration youtube api for handle video\
-Develop autocomplete for search with debounce or throttle\
+Develop autocomplete for search with debounce or throttle
 
-This project using `Mock Service Worker`, live version work only with localstorage without websocket.\
+This project using `Mock Service Worker`, live version work only with localstorage without websocket.
 **Please using local for full function. I sincerely apologize for the inconvenience**
