@@ -65,7 +65,7 @@ export default function LeftSideBar() {
         <Divider />
         {!isAuthenticated && (
           <div className="px-4 py-4">
-            <p className="text-[15px] text-[#999] mb-4">
+            <p className="text-[15px] text-[#999] mb-4" data-testid="login-left-bar-button">
               Log in to view your <b>Followed</b> content.
             </p>
             <LoginDialog isPrimaryButton={true} />

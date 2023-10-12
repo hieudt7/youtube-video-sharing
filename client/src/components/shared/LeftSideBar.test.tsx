@@ -42,9 +42,7 @@ describe('LeftSideBar Component', () => {
 
     render(<LeftSideBar />);
 
-    const loginText = screen.getByText(
-      'Log in to view your "Followed" content.',
-    );
+    const loginText = screen.getByTestId("login-left-bar-button");
     expect(loginText).toBeInTheDocument();
 
     const loginButton = screen.getByRole('button', { name: 'Log in' });
