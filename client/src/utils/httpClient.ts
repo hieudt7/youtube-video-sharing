@@ -6,11 +6,7 @@ import type {
 } from 'axios';
 import { camelizeKeys, decamelizeKeys } from 'humps';
 
-import {
-  BASE_URL,
-  API_KEY,
-  API_TIMEOUT,
-} from './constants/envVars';
+import { BASE_URL, API_KEY, API_TIMEOUT } from './constants/envVars';
 
 const defaultHeaders = {
   'Content-Type': 'application/json',
@@ -44,7 +40,6 @@ defaultClient.interceptors.request.use(
     return Promise.reject(error);
   },
 );
-
 
 // Axios middleware to convert all api responses to camelCase
 defaultClient.interceptors.response.use(

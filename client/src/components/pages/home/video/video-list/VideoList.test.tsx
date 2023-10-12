@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import { useCommonDataContext, useAuthContext } from '@/contexts';
-import VideoList from './VideoList'; 
+import VideoList from './VideoList';
 
 jest.mock('@/contexts/auth/AuthContext');
 
@@ -19,8 +19,8 @@ describe('VideoList Component', () => {
       { id: 3, title: 'Video 3' },
     ];
 
-    (useCommonDataContext as jest.Mock).mockReturnValue({ 
-        setVideoActionList: jest.fn(),
+    (useCommonDataContext as jest.Mock).mockReturnValue({
+      setVideoActionList: jest.fn(),
       isReloadVideoList: false,
       videoList: mockVideoData,
       setVideoList: jest.fn(),
@@ -47,11 +47,11 @@ describe('VideoList Component', () => {
       { id: 2, title: 'Video 2' },
     ];
 
-    (useCommonDataContext as jest.Mock).mockReturnValue({ 
-        setVideoActionList: jest.fn(),
-        isReloadVideoList: true,
-        videoList: [],
-        setVideoList: jest.fn(),
+    (useCommonDataContext as jest.Mock).mockReturnValue({
+      setVideoActionList: jest.fn(),
+      isReloadVideoList: true,
+      videoList: [],
+      setVideoList: jest.fn(),
     });
     (useAuthContext as jest.Mock).mockReturnValue({ isAuthenticated: true });
 

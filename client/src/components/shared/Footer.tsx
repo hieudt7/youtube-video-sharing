@@ -11,9 +11,7 @@ export default function Footer() {
           <div>
             <Link href="#">Privacy</Link> | <Link href="#">Terms</Link>
           </div>
-          <p className="text-center">
-            Copyright © 2023. All Rights Reserved.
-          </p>
+          <p className="text-center">Copyright © 2023. All Rights Reserved.</p>
         </div>
       </div>
     </footer>

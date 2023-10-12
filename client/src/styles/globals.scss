@@ -1,35 +1,37 @@
 @tailwind base;
-@import "tailwindcss/components";
+@import 'tailwindcss/components';
 
-@import "tailwindcss/utilities";
+@import 'tailwindcss/utilities';
 
-*, *::before, *::after {
-    box-sizing: border-box;
-}
-
-main{
-    // min-height: calc(100vh - 80px);
-    @apply bg-[#f0f2f5] lg:bg-white;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-iframe{
-    width: 100%;
+main {
+  // min-height: calc(100vh - 80px);
+  @apply bg-[#f0f2f5] lg:bg-white;
 }
-.MuiTypography-root{
-    &.MuiTypography-h6.MuiDialogTitle-root{
-        @apply bg-purple-primary text-white;
-    }
+
+iframe {
+  width: 100%;
 }
-.MuiButtonBase-root.play-video-button{
-    position: absolute;
-    top:50%;
-    left:50%;
-    transform: translate(-50%,-50%);
-    transition: all linear 0.15s;
-    &:hover{
-        transform:translate(-50%,-50%) scale(0.85);
-    }
+.MuiTypography-root {
+  &.MuiTypography-h6.MuiDialogTitle-root {
+    @apply bg-purple-primary text-white;
+  }
 }
-.desktop-view{
-    @apply hidden lg:block;
+.MuiButtonBase-root.play-video-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: all linear 0.15s;
+  &:hover {
+    transform: translate(-50%, -50%) scale(0.85);
+  }
+}
+.desktop-view {
+  @apply hidden lg:block;
 }

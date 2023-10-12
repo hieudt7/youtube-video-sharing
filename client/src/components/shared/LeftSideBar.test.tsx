@@ -1,6 +1,6 @@
 import React from 'react';
-import { render, screen,fireEvent } from '@testing-library/react';
-import { useAuthContext } from '@/contexts'; 
+import { render, screen, fireEvent } from '@testing-library/react';
+import { useAuthContext } from '@/contexts';
 import LeftSideBar from './LeftSideBar';
 
 jest.mock('@/contexts/auth/AuthContext');
@@ -34,11 +34,17 @@ describe('LeftSideBar Component', () => {
   });
 
   it('should displays login button when not authenticated', () => {
-    (useAuthContext as jest.Mock).mockReturnValue({ isAuthenticated: false, user: null, signOut: jest.fn() });
+    (useAuthContext as jest.Mock).mockReturnValue({
+      isAuthenticated: false,
+      user: null,
+      signOut: jest.fn(),
+    });
 
     render(<LeftSideBar />);
 
-    const loginText = screen.getByText('Log in to view your "Followed" content.');
+    const loginText = screen.getByText(
+      'Log in to view your "Followed" content.',
+    );
     expect(loginText).toBeInTheDocument();
 
     const loginButton = screen.getByRole('button', { name: 'Log in' });

@@ -44,7 +44,9 @@ describe('handleAxiosError', () => {
 
     handleAxiosError(rejectMock)(error as any);
 
-    expect(consoleErrorSpy).toHaveBeenCalledWith('GET request to /api/some-endpoint failed, Request failed');
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      'GET request to /api/some-endpoint failed, Request failed',
+    );
     expect(rejectMock).toHaveBeenCalledWith('Server error');
 
     consoleErrorSpy.mockRestore();
@@ -65,7 +67,9 @@ describe('handleAxiosError', () => {
 
     handleAxiosError(rejectMock)(error as any);
 
-    expect(consoleErrorSpy).toHaveBeenCalledWith('POST request to /api/another-endpoint failed, Network error');
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      'POST request to /api/another-endpoint failed, Network error',
+    );
     expect(rejectMock).toHaveBeenCalledWith('Network error');
 
     consoleErrorSpy.mockRestore();

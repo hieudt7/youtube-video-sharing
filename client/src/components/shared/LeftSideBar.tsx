@@ -21,52 +21,57 @@ import LoginDialog from '@/components/authentication/LoginDialog';
 import { useAuthContext } from '@/contexts';
 
 const leftMenu = [
-    {
-        label: 'Home',
-        icon: <CameraIndoorIcon />,
-    },
-    {
-        label: 'Trending',
-        icon: <WhatshotIcon />,
-    },
-    {
-        label: 'Music',
-        icon: <QueueMusicIcon />,
-    },
-    {
-        label: 'LIVE',
-        icon: <LiveTvIcon />,
-    },
+  {
+    label: 'Home',
+    icon: <CameraIndoorIcon />,
+  },
+  {
+    label: 'Trending',
+    icon: <WhatshotIcon />,
+  },
+  {
+    label: 'Music',
+    icon: <QueueMusicIcon />,
+  },
+  {
+    label: 'LIVE',
+    icon: <LiveTvIcon />,
+  },
 ];
 
 export default function LeftSideBar() {
-    const { isAuthenticated } = useAuthContext();
+  const { isAuthenticated } = useAuthContext();
 
-    return (
-        <div className="w-[350px] min-h-screen bg-white sticky top-0 desktop-view" data-testid="left-bar">
-            <Box role="presentation" sx={{ width: '100%' }}>
-                <List>
-                    {leftMenu.map((item) => (
-                        <ListItem key={item.label} disablePadding>
-                            <ListItemButton
-                                onClick={() => {
-                                    toast.info('Feature is coming soon');
-                                }}
-                            >
-                                <ListItemIcon>{item.icon}</ListItemIcon>
-                                <ListItemText primary={item.label} />
-                            </ListItemButton>
-                        </ListItem>
-                    ))}
-                </List>
-                <Divider />
-                {!isAuthenticated && (
-                    <div className="px-4 py-4">
-                        <p className="text-[15px] text-[#999] mb-4">Log in to view your "Followed" content.</p>
-                        <LoginDialog isPrimaryButton={true} />
-                    </div>
-                )}
-            </Box>
-        </div>
-    );
+  return (
+    <div
+      className="w-[350px] min-h-screen bg-white sticky top-0 desktop-view"
+      data-testid="left-bar"
+    >
+      <Box role="presentation" sx={{ width: '100%' }}>
+        <List>
+          {leftMenu.map((item) => (
+            <ListItem key={item.label} disablePadding>
+              <ListItemButton
+                onClick={() => {
+                  toast.info('Feature is coming soon');
+                }}
+              >
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemText primary={item.label} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+        <Divider />
+        {!isAuthenticated && (
+          <div className="px-4 py-4">
+            <p className="text-[15px] text-[#999] mb-4">
+              Log in to view your <b>Followed</b> content.
+            </p>
+            <LoginDialog isPrimaryButton={true} />
+          </div>
+        )}
+      </Box>
+    </div>
+  );
 }

@@ -14,7 +14,9 @@ describe('Footer Component', () => {
     expect(termsLink).toHaveTextContent('Terms');
     expect(termsLink).toHaveAttribute('href', '#');
 
-    const copyrightText = screen.getByText('Copyright © 2023. All Rights Reserved.');
+    const copyrightText = screen.getByText(
+      'Copyright © 2023. All Rights Reserved.',
+    );
     expect(copyrightText).toBeInTheDocument();
   });
 });
