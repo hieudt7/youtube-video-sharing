@@ -15,10 +15,13 @@ export const handleAxiosResponse =
     (response?: AxiosResponse<ApiResponse<any> | void>): void => {
         if (isUndefined(response?.data)) {
             resolve();
+        } else {
+            const responseWithData = response?.data;
+            if (!isUndefined(responseWithData)) {
+                resolve((responseWithData as ApiResponse<any>).data);
+            }
         }
-        const responseWithData = response?.data;
-        resolve((responseWithData as ApiResponse<any>).data);
-};
+    };
 
 export const handleAxiosError = (reject: (reason?: any) => void) => (error: AxiosError) => {
     console.error(`${error.config?.method} request to ${error.config?.url} failed, ${error.message}`);

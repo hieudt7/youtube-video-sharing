@@ -16,6 +16,8 @@
     "lint": "next lint",
     "test": "jest",
     "test-watch": "jest --watch",
+    "test-no-coverage": "jest --collectCoverage=false",
+    "test-watch-no-coverage": "jest --collectCoverage=false --watch",
     "sonar": "npx sonarqube-scanner -Dsonar.projectKey=sr-visitor-web-ui -Dsonar.qualitygate.wait=true",
     "check-types": "tsc --noEmit --pretty"
   },

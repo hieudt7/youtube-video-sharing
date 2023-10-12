@@ -43,7 +43,7 @@ export default function LeftSideBar() {
     const { isAuthenticated } = useAuthContext();
 
     return (
-        <div className="w-[350px] min-h-screen bg-white sticky top-0 desktop-view">
+        <div className="w-[350px] min-h-screen bg-white sticky top-0 desktop-view" data-testid="left-bar">
             <Box role="presentation" sx={{ width: '100%' }}>
                 <List>
                     {leftMenu.map((item) => (

@@ -11,7 +11,7 @@ import Avatar from '@mui/material/Avatar';
 import dayjs from 'dayjs';
 
 import { useCommonDataContext } from '@/contexts';
-import { DISPLAY_DATE_TIME_FORMAT } from '@/constants/time';
+import { DISPLAY_DATE_TIME_FORMAT } from '@/utils/constants/time';
 
 export default function Notification() {
     const { videoNotification } = useCommonDataContext();
@@ -27,15 +27,15 @@ export default function Notification() {
 
     return (
         <div>
-            <IconButton sx={{ color: '#fff' }} onClick={handleOpenMenu}>
+            <IconButton sx={{ color: '#fff' }} onClick={handleOpenMenu} aria-label='notification'>
                 <Badge badgeContent={videoNotification.length > 0 ? videoNotification.length : null} color="secondary">
                     <CircleNotificationsIcon />
                 </Badge>
             </IconButton>
-            {videoNotification.length > 0 && (
-                <Menu id="basic-menu" anchorEl={anchorEl} open={open} onClose={handleClose}>
+            {open && videoNotification.length > 0 && (
+                <Menu id="basic-menu" data-testid='notification-popup' anchorEl={anchorEl} open={open} onClose={handleClose}>
                     {videoNotification.map((data) => (
-                        <MenuItem key={`${data.id}`} onClick={handleClose}>
+                        <MenuItem key={`${data.id}`} onClick={handleClose} data-testid='notification-menu-item'>
                             <div className="flex flex-row p-4 gap-3">
                                 <div className="avatar">
                                     <Avatar alt={data?.author?.username} src={data?.author?.avatar} />

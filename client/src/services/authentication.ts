@@ -2,11 +2,12 @@ import client from '@/utils/httpClient';
 import { handleAxiosResponse, handleAxiosError } from './common';
 
 export interface UserInfo {
-    id: string;
-    avatar: string;
-    username: string;
+    id?: string;
+    avatar?: string;
+    username?: string;
     email: string;
     password: string;
+    //TODO should not include password here, fake type for test login
 }
 export interface UserLoginParams {
     payload: { email: string; password: string };
@@ -14,12 +15,6 @@ export interface UserLoginParams {
 export interface UserRegisterParams {
     payload: { email: string; password: string; username: string };
 }
-
-export type videoActionInfo = {
-    id?: string;
-    action?: videoActionEnum;
-};
-export type videoActionEnum = 'LIKE' | 'DISLIKE';
 
 export function login(params: UserLoginParams) {
     const {

@@ -1,10 +1,9 @@
 'use client';
-
+import type { ReactNode } from 'react';
 import { useContext, useState, createContext, useCallback, useMemo } from 'react';
 import { toast } from 'react-toastify';
-import { login, register, type UserInfo } from '@/services/authentication';
 
-import type { ReactNode } from 'react';
+import { login, register, type UserInfo } from '@/services/authentication';
 
 type AuthProviderProps = {
     children: ReactNode;
@@ -27,6 +26,7 @@ const AuthContext = createContext<AuthContextType>({
 });
 
 export const AuthContextProvider = ({ children }: AuthProviderProps) => {
+
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(
         JSON.parse(localStorage.getItem('userLogged')!) ? true : false //TODO: check isauthenticated if get user have data
     );
@@ -44,6 +44,7 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
         setIsAuthenticated(false);
         window.location.reload();
     };
+
     const signIn = useCallback(
         async (email: string, password: string) => {
             try {
@@ -66,6 +67,7 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
         },
         [handleSignedIn]
     );
+
     const signUp = useCallback(
         async (email: string, password: string, username: string) => {
             try {
@@ -89,6 +91,7 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
         },
         [handleSignedIn]
     );
+
     const providerValue = useMemo(
         () => ({
             isAuthenticated,
@@ -99,6 +102,7 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
         }),
         [isAuthenticated, user]
     );
+
     return <AuthContext.Provider value={providerValue}>{children}</AuthContext.Provider>;
 };
 

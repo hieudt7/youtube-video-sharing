@@ -39,7 +39,7 @@ export default function RegisterDialog({ closeMenuItem }: RegisterDialogProps) {
 
     const formSchema = Yup.object().shape({
         email: Yup.string().required('Email is required').email('Please input valid email address'),
-        username: Yup.string().required('username is required'),
+        username: Yup.string().required('Username is required'),
         password: Yup.string()
             .required('Password is required')
             .min(6, 'Password length should be at least 6 characters')
@@ -93,7 +93,6 @@ export default function RegisterDialog({ closeMenuItem }: RegisterDialogProps) {
             <Dialog
                 open={open}
                 TransitionComponent={Transition}
-                keepMounted
                 onClose={handleClose}
                 onKeyDown={(event) => {
                     if (event.key === 'Tab') {
@@ -160,7 +159,7 @@ export default function RegisterDialog({ closeMenuItem }: RegisterDialogProps) {
                             <FormControl fullWidth size="small" variant="outlined" sx={{ padding: '15px 0' }}>
                                 <TextField
                                     size="small"
-                                    label="Password*"
+                                    label="Confirm Password*"
                                     error={!!errors.cpassword}
                                     type={'password'}
                                     onChange={field.onChange}
@@ -175,10 +174,10 @@ export default function RegisterDialog({ closeMenuItem }: RegisterDialogProps) {
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose} type="button">
+                    <Button onClick={handleClose} type="button" data-testid="cancel-register-button">
                         Cancel
                     </Button>
-                    <Button onClick={handleSaveForm}>Register</Button>
+                    <Button onClick={handleSaveForm} data-testid="submit-register-button">Register</Button>
                 </DialogActions>
             </Dialog>
         </>

@@ -97,7 +97,6 @@ export default function LoginDialog({ closeMenuItem, isPrimaryButton }: LoginDia
             <Dialog
                 open={open}
                 TransitionComponent={Transition}
-                keepMounted
                 onClose={handleClose}
                 aria-describedby="alert-dialog-slide-description"
                 onKeyDown={(event) => {
@@ -112,7 +111,6 @@ export default function LoginDialog({ closeMenuItem, isPrimaryButton }: LoginDia
                         render={({ field }) => (
                             <FormControl fullWidth size="small" variant="outlined" sx={{ padding: '15px 0' }}>
                                 <TextField
-                                    autoFocus
                                     size="small"
                                     label="Email*"
                                     error={!!errors.email}
@@ -131,9 +129,8 @@ export default function LoginDialog({ closeMenuItem, isPrimaryButton }: LoginDia
                         render={({ field }) => (
                             <FormControl fullWidth size="small" variant="outlined" sx={{ padding: '15px 0' }}>
                                 <TextField
-                                    autoFocus
                                     size="small"
-                                    label="Confirm password*"
+                                    label="Password*"
                                     error={!!errors.password}
                                     type={'password'}
                                     onChange={field.onChange}
@@ -148,10 +145,12 @@ export default function LoginDialog({ closeMenuItem, isPrimaryButton }: LoginDia
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose} type="button">
+                    <Button onClick={handleClose} type="button" data-testid="cancel-login-btn">
                         Cancel
                     </Button>
-                    <Button onClick={handleSaveForm}>Login</Button>
+                    <Button onClick={handleSaveForm} data-testid="submit-login-btn">
+                        Login
+                    </Button>
                 </DialogActions>
             </Dialog>
         </>

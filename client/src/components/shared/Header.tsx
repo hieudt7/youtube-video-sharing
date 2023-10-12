@@ -92,7 +92,7 @@ export default function Header() {
     };
     return (
         <>
-            <header className={headerWrapper()}>
+            <header className={headerWrapper()} data-testid="wrapp-header">
                 <div className={headerMenuMobile()}>
                     <IconButton
                         size="large"
@@ -136,6 +136,7 @@ export default function Header() {
                                         onClick={() => {
                                             toast.info('Feature is coming soon');
                                         }}
+                                        data-testid="header-search-icon"
                                     >
                                         <SearchIcon sx={{ color: '#fff' }} />
                                     </IconButton>
@@ -159,6 +160,7 @@ export default function Header() {
                                         aria-label="toggle password visibility"
                                         edge="end"
                                         onClick={handleOpenUserMenu}
+                                        data-testid="authorized-menu"
                                     >
                                         <Avatar alt="Admin" src={user?.avatar ?? '/static/images/avatar/2.jpg'} />
                                     </IconButton>
@@ -218,6 +220,7 @@ export default function Header() {
                                             handleCloseUserMenu();
                                             signOut();
                                         }}
+                                        data-testid="header-logout-button"
                                     >
                                         <ListItemIcon>
                                             <Logout fontSize="small" />
@@ -233,6 +236,7 @@ export default function Header() {
                                         aria-label="toggle password visibility"
                                         edge="end"
                                         onClick={handleOpenUserMenu}
+                                        data-testid="unauthorized-menu"
                                     >
                                         <AccountCircleIcon sx={{ color: '#fff' }} />
                                     </IconButton>

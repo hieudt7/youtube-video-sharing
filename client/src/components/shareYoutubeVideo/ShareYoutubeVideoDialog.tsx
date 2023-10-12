@@ -19,8 +19,8 @@ import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { toast } from 'react-toastify';
 
-import { useCommonDataContext, useWebSocket,useAuthContext } from '@/contexts';
-import { Validation } from '@/constants/regex';
+import { useCommonDataContext, useWebSocket, useAuthContext } from '@/contexts';
+import { Validation } from '@/utils/constants/regex';
 import { shareYoutubeVideo } from '@/services/video';
 
 const Transition = React.forwardRef(function Transition(
@@ -90,85 +90,89 @@ export default function ShareYoutubeVideoDialog() {
                 handleClose();
                 setIsReloadVideoList(true); //trigger to reload video list
                 const videoNotification = shareResponse;
-                socket.emit('send_message', { videoNotification, room, sender: socket.id });
+                if(socket){
+                    socket.emit('send_message', { videoNotification, room, sender: socket.id });
+                }
             }
         })();
     };
 
     return (
         <>
-            <IconButton aria-label="toggle password visibility" edge="end" onClick={handleClickOpen}>
+            <IconButton aria-label="toggle share youtube video" edge="end" onClick={handleClickOpen}>
                 <VideoCameraFrontOutlinedIcon sx={{ color: '#fff' }} />
             </IconButton>
-            <Dialog
-                open={open}
-                TransitionComponent={Transition}
-                keepMounted
-                onClose={handleClose}
-                aria-describedby="alert-dialog-slide-description"
-            >
-                <DialogTitle>{'Share a youtube movie'}</DialogTitle>
-                <DialogContent>
-                    <Controller
-                        render={({ field }) => (
-                            <FormControl fullWidth size="small" variant="outlined" sx={{ padding: '15px 0' }}>
-                                <TextField
-                                    size="small"
-                                    label="Youtube URL*"
-                                    error={!!errors.url}
-                                    type={'text'}
-                                    onChange={field.onChange}
-                                    name={field.name}
-                                    value={field.value}
-                                    helperText={errors.url?.message}
-                                />
-                            </FormControl>
-                        )}
-                        name="url"
-                        control={control}
-                    />
-                    <Controller
-                        render={({ field }) => (
-                            <FormControl fullWidth size="small" variant="outlined" sx={{ padding: '15px 0' }}>
-                                <TextField
-                                    size="small"
-                                    label="Title"
-                                    type={'text'}
-                                    onChange={field.onChange}
-                                    name={field.name}
-                                    value={field.value}
-                                    helperText={errors.url?.message}
-                                />
-                            </FormControl>
-                        )}
-                        name="title"
-                        control={control}
-                    />
-                    <Controller
-                        render={({ field }) => (
-                            <FormControl fullWidth size="small" variant="outlined" sx={{ padding: '15px 0' }}>
-                                <TextField
-                                    size="small"
-                                    label="Youtube thumbnail"
-                                    type={'text'}
-                                    onChange={field.onChange}
-                                    name={field.name}
-                                    value={field.value}
-                                    helperText={errors.url?.message}
-                                />
-                            </FormControl>
-                        )}
-                        name="thumbnail"
-                        control={control}
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose} type="button">
-                        Cancel
-                    </Button>
-                    <Button onClick={handleSaveForm}>Share</Button>
-                </DialogActions>
-            </Dialog>
+            {open && (
+                <Dialog
+                    open={open}
+                    TransitionComponent={Transition}
+                    keepMounted
+                    onClose={handleClose}
+                    aria-describedby="alert-dialog-slide-description"
+                >
+                    <DialogTitle>{'Share a youtube movie'}</DialogTitle>
+                    <DialogContent>
+                        <Controller
+                            render={({ field }) => (
+                                <FormControl fullWidth size="small" variant="outlined" sx={{ padding: '15px 0' }}>
+                                    <TextField
+                                        size="small"
+                                        label="Youtube URL*"
+                                        error={!!errors.url}
+                                        type={'text'}
+                                        onChange={field.onChange}
+                                        name={field.name}
+                                        value={field.value}
+                                        helperText={errors.url?.message}
+                                    />
+                                </FormControl>
+                            )}
+                            name="url"
+                            control={control}
+                        />
+                        <Controller
+                            render={({ field }) => (
+                                <FormControl fullWidth size="small" variant="outlined" sx={{ padding: '15px 0' }}>
+                                    <TextField
+                                        size="small"
+                                        label="Title"
+                                        type={'text'}
+                                        onChange={field.onChange}
+                                        name={field.name}
+                                        value={field.value}
+                                        helperText={errors.url?.message}
+                                    />
+                                </FormControl>
+                            )}
+                            name="title"
+                            control={control}
+                        />
+                        <Controller
+                            render={({ field }) => (
+                                <FormControl fullWidth size="small" variant="outlined" sx={{ padding: '15px 0' }}>
+                                    <TextField
+                                        size="small"
+                                        label="Youtube thumbnail"
+                                        type={'text'}
+                                        onChange={field.onChange}
+                                        name={field.name}
+                                        value={field.value}
+                                        helperText={errors.url?.message}
+                                    />
+                                </FormControl>
+                            )}
+                            name="thumbnail"
+                            control={control}
+                        />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleClose} type="button" data-testid="cancel-share-video-button">
+                            Cancel
+                        </Button>
+                        <Button onClick={handleSaveForm} data-testid="submit-share-video-button">Share</Button>
+                    </DialogActions>
+                </Dialog>
+            )}
         </>
     );
 }

@@ -5,7 +5,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 
 import { videoAction, removeVideoAction, type VideoInfo, videoActionEnum } from '@/services/video';
-import { DISPLAY_DATE_FORMAT } from '@/constants/time';
+import { DISPLAY_DATE_FORMAT } from '@/utils/constants/time';
 
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
@@ -66,6 +66,7 @@ export default function VideoItem({ data }: Props) {
                 borderRadius: '8px',
                 marginBottom: '24px',
             }}
+            data-testid="video-item-box"
         >
             <div className="flex flex-row p-4 gap-3 items-center">
                 <div className="avatar">
@@ -91,7 +92,7 @@ export default function VideoItem({ data }: Props) {
                     />
                 ) : (
                     <>
-                        <IconButton onClick={() => setIsPlayVideo(true)} className="play-video-button">
+                        <IconButton onClick={() => setIsPlayVideo(true)} className="play-video-button" data-testid="play-video-button">
                             <PlayCircleIcon fontSize={'large'} sx={{ color: '#fff', fontSize: '80px' }} />
                         </IconButton>
                         <Image src={data?.cover ?? ''} alt="care 1" className="w-full" width={100} height={100} />
@@ -103,23 +104,23 @@ export default function VideoItem({ data }: Props) {
                 <div>
                     <ButtonGroup variant="outlined" aria-label="outlined button group">
                         {videoActionList?.find((e) => e.id === data.id)?.action === 'LIKE' ? (
-                            <Button onClick={() => handleRemoveVideoACtion(data.id!, 'LIKE')}>
+                            <Button onClick={() => handleRemoveVideoACtion(data.id!, 'LIKE')} data-testid="video-like-button">
                                 <ThumbUpAltIcon />
                                 {data?.likes}
                             </Button>
                         ) : (
-                            <Button sx={{ color: '#5e6771' }} onClick={() => handleVideoAction(data.id!, 'LIKE')}>
+                            <Button sx={{ color: '#5e6771' }} onClick={() => handleVideoAction(data.id!, 'LIKE')} data-testid="video-like-button">
                                 <ThumbUpAltIcon />
                                 {data?.likes}
                             </Button>
                         )}
                         {videoActionList?.find((e) => e.id === data.id)?.action === 'DISLIKE' ? (
-                            <Button onClick={() => handleRemoveVideoACtion(data.id!, 'DISLIKE')}>
+                            <Button onClick={() => handleRemoveVideoACtion(data.id!, 'DISLIKE')} data-testid="video-dislike-button">
                                 <ThumbDownAltIcon />
                                 {data?.likes}
                             </Button>
                         ) : (
-                            <Button sx={{ color: '#5e6771' }} onClick={() => handleVideoAction(data.id!, 'DISLIKE')}>
+                            <Button sx={{ color: '#5e6771' }} onClick={() => handleVideoAction(data.id!, 'DISLIKE')} data-testid="video-dislike-button">
                                 <ThumbDownAltIcon />
                                 {data?.likes}
                             </Button>
