@@ -10,11 +10,11 @@ Git
 
 ## Installation & Configuration
 Follow these steps to set up the project on your local machine:\
-Clone the GitHub repository, run: `git clone https://github.com/hieudt7/youtube-video-sharing.git`\
+Clone the GitHub repository, run: `git clone https://github.com/hieudt7/youtube-video-sharing.git`
 
-This project have 2 version:/
-1.Mock api with **Mock Service Worker** and Websocket branch `developer` was merge into `main`
-2.Mock api using localstorage only and Websocket branch `web-local-storage`
+This project have 2 version:\
+1.Mock api with **Mock Service Worker** and Websocket branch `developer` was merge into `main`\
+2.Mock api using localstorage only and Websocket branch `web-local-storage`\
 **Recommend using on branch `developer` with Mock Service Worker is better**
 
 ### Run websocket server
