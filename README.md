@@ -64,4 +64,3 @@ Develop autocomplete for search with debounce or throttle
 ## Deployment
 Using Github pages for static locastorage web without websocket: `https://hieudt7.github.io/youtube-video-sharing/`\
 Using Google Cloud for localstorage with websocket: `http://34.75.110.218:3001`
-**Please using local for full function. I sincerely apologize for the inconvenience**
