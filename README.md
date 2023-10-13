@@ -13,8 +13,8 @@ Follow these steps to set up the project on your local machine:\
 Clone the GitHub repository, run: `git clone https://github.com/hieudt7/youtube-video-sharing.git`
 
 This project have 2 version:\
-1.Mock api with **Mock Service Worker** and Websocket branch `developer` was merge into `main`\
-2.Mock api using localstorage only and Websocket branch `web-local-storage`\
+1.Mock api with **Mock Service Worker** and Websocket, branch `developer` was merge into `main`\
+2.Mock api using localstorage only and Websocket, branch `web-local-storage`\
 **Recommend using on branch `developer` with Mock Service Worker is better**
 
 ### Run websocket server
@@ -61,5 +61,7 @@ Implement loading screen when waitng api response\
 Itegration youtube api for handle video\
 Develop autocomplete for search with debounce or throttle
 
-This project using `Mock Service Worker`, live version work only with localstorage without websocket.
+## Deployment
+Using Github pages for static locastorage web without websocket: `https://hieudt7.github.io/youtube-video-sharing/`\
+Using Google Cloud for localstorage with websocket: `http://34.75.110.218:3001`
 **Please using local for full function. I sincerely apologize for the inconvenience**
